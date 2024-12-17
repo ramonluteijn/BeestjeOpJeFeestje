@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje", "Beest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje.Repository", "BeestjeOpJeFeestje.Repository\BeestjeOpJeFeestje.Repository.csproj", "{57EA5CAD-9656-41F1-84C9-37003421C704}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje.Data", "BeestjeOpJeFeestje.Data\BeestjeOpJeFeestje.Data.csproj", "{21CA6FA7-2EF4-4003-A162-C290F665ABEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{57EA5CAD-9656-41F1-84C9-37003421C704}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57EA5CAD-9656-41F1-84C9-37003421C704}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57EA5CAD-9656-41F1-84C9-37003421C704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CA6FA7-2EF4-4003-A162-C290F665ABEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CA6FA7-2EF4-4003-A162-C290F665ABEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CA6FA7-2EF4-4003-A162-C290F665ABEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CA6FA7-2EF4-4003-A162-C290F665ABEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
