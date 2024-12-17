@@ -1,4 +1,5 @@
-﻿using BeestjeOpJeFeestje.Repository.Models;
+﻿using BeestjeOpJeFeestje.Data.Dtos;
+using BeestjeOpJeFeestje.Repository.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace BeestjeOpJeFeestje.Data.Services
@@ -22,6 +23,31 @@ namespace BeestjeOpJeFeestje.Data.Services
         public async Task Logout()
         {
             await signInManager.SignOutAsync();
+        }
+
+        public IEnumerable<UserDto> GetAllUsers()
+        {
+            var users = userManager.Users
+                .OrderBy(user => user.UserName)
+                .ToList();
+
+            var customers = users
+                .Where(user => userManager.IsInRoleAsync(user, "customer").Result)
+                .Select(ConvertCustomerDto)
+                .ToList();
+            return customers;
+        }
+
+        private UserDto ConvertCustomerDto(User user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                Name = user.UserName,
+                Rank = user.Rank,
+                HouseNumber = user.HouseNumber,
+                ZipCode = user.ZipCode
+            };
         }
     }
 }
