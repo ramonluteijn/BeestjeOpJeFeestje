@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestje.Repository.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20241217175319_Initial")]
+    [Migration("20241217193848_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -109,7 +109,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aee1290e-2590-4f91-9602-11219a993b4d",
+                            ConcurrencyStamp = "497e9982-da96-4fd4-a80c-fa4a4c3e3116",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -120,7 +120,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "8a1f58ad-fd35-450f-91d0-a845319e2dbb",
+                            SecurityStamp = "878f29e1-ac8e-485f-b5d2-2536d74bc777",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             ZipCode = "1234AB"
@@ -129,7 +129,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "73de6283-7b19-4feb-a993-6e3707a35153",
+                            ConcurrencyStamp = "7a4f2b66-0d74-48a1-92de-583b8a4e8807",
                             Email = "customer@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -140,7 +140,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "44b16430-462b-4043-8342-eea76398200a",
+                            SecurityStamp = "46486e93-2005-4d41-8417-58aa09a46daa",
                             TwoFactorEnabled = false,
                             UserName = "customer",
                             ZipCode = "1234AB"

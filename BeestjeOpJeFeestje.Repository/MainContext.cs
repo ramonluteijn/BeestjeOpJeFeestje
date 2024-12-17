@@ -1,4 +1,5 @@
-﻿using BeestjeOpJeFeestje.Repository.Models;
+﻿using BeestjeOpJeFeestje.Repository.Enums;
+using BeestjeOpJeFeestje.Repository.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

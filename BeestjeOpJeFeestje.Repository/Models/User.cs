@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BeestjeOpJeFeestje.Repository.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace BeestjeOpJeFeestje.Repository.Models;
 

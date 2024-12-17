@@ -1,4 +1,4 @@
-﻿namespace BeestjeOpJeFeestje.Repository.Models;
+﻿namespace BeestjeOpJeFeestje.Repository.Enums;
 
 public enum Rank
 {
