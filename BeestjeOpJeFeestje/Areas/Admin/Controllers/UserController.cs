@@ -21,4 +21,30 @@ public class UserController(AccountService accountService) : Controller
 
         return View(usersOverviewModel);
     }
+
+    [HttpGet("create")]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> Create(SingleUserViewModel userViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            var userDto = userViewModel.ToDto();
+            try
+            {
+                var (check, result) = await accountService.CreateUser(userDto);
+                userViewModel.Check = check;
+                userViewModel.Result = result;
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        return View(userViewModel);
+    }
 }

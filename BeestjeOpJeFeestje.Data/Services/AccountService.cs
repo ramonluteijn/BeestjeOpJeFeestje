@@ -1,4 +1,5 @@
-﻿using BeestjeOpJeFeestje.Data.Dtos;
+﻿using System.Text;
+using BeestjeOpJeFeestje.Data.Dtos;
 using BeestjeOpJeFeestje.Repository.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -49,6 +50,46 @@ namespace BeestjeOpJeFeestje.Data.Services
                 HouseNumber = user.HouseNumber,
                 ZipCode = user.ZipCode
             };
+        }
+
+
+        public async Task<(bool, string)> CreateUser(UserDto user)
+        {
+            if (await userManager.FindByEmailAsync(user.Email) != null)
+            {
+                return (false, "Email already in use");
+            }
+
+            var newUser = new User
+            {
+                UserName = user.Email,
+                Email = user.Email,
+                Rank = user.Rank,
+                HouseNumber = user.HouseNumber,
+                PhoneNumber = user.PhoneNumber,
+                ZipCode = user.ZipCode
+            };
+
+            var password = PasswordGenerator();
+            var result = await userManager.CreateAsync(newUser, password);
+            if (!result.Succeeded)
+            {
+                return (false, "Something went wrong, please try again.");
+            }
+
+            await userManager.AddToRoleAsync(newUser, "customer");
+            return (true, password);
+        }
+
+        private static string PasswordGenerator()
+        {
+            var password = new StringBuilder();
+            var random = new Random();
+            for (var i = 0; i < 8; i++)
+            {
+                password.Append((char)random.Next(33, 126));
+            }
+            return password.ToString();
         }
     }
 }
