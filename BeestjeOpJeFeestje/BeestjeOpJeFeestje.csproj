@@ -30,14 +30,5 @@
     <ItemGroup>
       <AdditionalFiles Include="Areas\Auth\Views\Account\Login.cshtml" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Areas\Admin\Models\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
-    </ItemGroup>
-
+    
 </Project>
