@@ -44,6 +44,7 @@ namespace BeestjeOpJeFeestje.Data.Services
             {
                 Id = user.Id,
                 Name = user.UserName,
+                Email = user.Email,
                 Rank = user.Rank,
                 HouseNumber = user.HouseNumber,
                 ZipCode = user.ZipCode
