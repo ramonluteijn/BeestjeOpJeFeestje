@@ -6,6 +6,7 @@ namespace BeestjeOpJeFeestje.Areas.Admin.Models;
 
 public class SingleUserViewModel
 {
+    public int Id { get; set; }
 
     [Required]
     public string Name { get; set; }
@@ -28,6 +29,7 @@ public class SingleUserViewModel
 
     public bool Check { get; set; }
     public string? Result { get; set; }
+
 
     public UserDto ToDto()
     {

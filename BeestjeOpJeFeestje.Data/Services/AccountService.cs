@@ -91,5 +91,23 @@ namespace BeestjeOpJeFeestje.Data.Services
             }
             return password.ToString();
         }
+
+        public UserDto GetUserById(int id)
+        {
+            var user = userManager.FindByIdAsync(id.ToString()).Result;
+            return ConvertCustomerDto(user!);
+        }
+
+        public async Task UpdateUser(UserDto userDto)
+        {
+            var user = await userManager.FindByIdAsync(userDto.Id.ToString());
+            user.UserName = userDto.Email;
+            user.Email = userDto.Email;
+            user.Rank = userDto.Rank;
+            user.HouseNumber = userDto.HouseNumber;
+            user.PhoneNumber = userDto.PhoneNumber;
+            user.ZipCode = userDto.ZipCode;
+            await userManager.UpdateAsync(user);
+        }
     }
 }

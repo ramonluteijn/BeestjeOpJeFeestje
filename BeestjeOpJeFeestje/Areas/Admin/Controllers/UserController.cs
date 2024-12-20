@@ -47,4 +47,56 @@ public class UserController(AccountService accountService) : Controller
         }
         return View(userViewModel);
     }
+
+    [HttpGet("details{id}")]
+    public IActionResult Details(int id)
+    {
+        var user = accountService.GetUserById(id);
+        var userViewModel = new SingleUserViewModel
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            HouseNumber = user.HouseNumber,
+            ZipCode = user.ZipCode,
+            PhoneNumber = user.PhoneNumber,
+            Rank = user.Rank
+        };
+        return View(userViewModel);
+    }
+
+    [HttpGet("edit{id}")]
+    public IActionResult Edit(int id)
+    {
+        var user = accountService.GetUserById(id);
+        var userViewModel = new SingleUserViewModel
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            HouseNumber = user.HouseNumber,
+            ZipCode = user.ZipCode,
+            PhoneNumber = user.PhoneNumber,
+            Rank = user.Rank
+        };
+        return View(userViewModel);
+    }
+
+    [HttpPost("edit{id}")]
+    public async Task<IActionResult> Edit(SingleUserViewModel userViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            var userDto = userViewModel.ToDto();
+            try
+            {
+                await accountService.UpdateUser(userDto);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        return View(userViewModel);
+    }
 }
