@@ -32,11 +32,11 @@
         @if (Model != null && !string.IsNullOrEmpty(Model.Result))
         {
             <div class="alert @(Model.Check ? "alert-success" : "alert-danger")">
-                <strong>@(Model.Check ? "Password:" : "Error:")</strong> @Model.Result
+                <strong>@(Model.Check ? "Updated:" : "Error:")</strong> @Model.Result
             </div>
         }
 
-        <form asp-action="Create" method="post" class="mx-auto" style="max-width: 30rem">
+        <form asp-action="Edit" method="post" class="mx-auto" style="max-width: 30rem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
                 <div class="my-2">
@@ -74,7 +74,8 @@
 
             <div class="d-flex justify-content-between pt-2">
                 <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-                <button class="btn btn-primary ms-1" type="submit">Create</button>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary">Delete</a>
+                <button class="btn btn-primary ms-1" type="submit">Edit</button>
             </div>
         </form>
     </div>

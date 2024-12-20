@@ -48,7 +48,8 @@ namespace BeestjeOpJeFeestje.Data.Services
                 Email = user.Email,
                 Rank = user.Rank,
                 HouseNumber = user.HouseNumber,
-                ZipCode = user.ZipCode
+                ZipCode = user.ZipCode,
+                PhoneNumber = user.PhoneNumber
             };
         }
 
@@ -98,16 +99,26 @@ namespace BeestjeOpJeFeestje.Data.Services
             return ConvertCustomerDto(user!);
         }
 
-        public async Task UpdateUser(UserDto userDto)
+        public async Task<(bool check, string result)> UpdateUser(int id, UserDto userDto)
         {
-            var user = await userManager.FindByIdAsync(userDto.Id.ToString());
-            user.UserName = userDto.Email;
+            var user = await userManager.FindByIdAsync(id.ToString());
+            if (user == null) return (false, "User not found");
+
+            user.UserName = userDto.Name;
             user.Email = userDto.Email;
-            user.Rank = userDto.Rank;
+            user.ZipCode = userDto.ZipCode;
             user.HouseNumber = userDto.HouseNumber;
             user.PhoneNumber = userDto.PhoneNumber;
-            user.ZipCode = userDto.ZipCode;
-            await userManager.UpdateAsync(user);
+            user.Rank = userDto.Rank;
+
+            var result = await userManager.UpdateAsync(user);
+            return result.Succeeded ? (true, "User updated") : (false, "Something went wrong, please try again.");
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+            await userManager.DeleteAsync(user);
         }
     }
 }

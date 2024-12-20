@@ -48,7 +48,8 @@ public class UserController(AccountService accountService) : Controller
         return View(userViewModel);
     }
 
-    [HttpGet("details{id}")]
+    [HttpGet("{id:int}/details")]
+
     public IActionResult Details(int id)
     {
         var user = accountService.GetUserById(id);
@@ -65,7 +66,8 @@ public class UserController(AccountService accountService) : Controller
         return View(userViewModel);
     }
 
-    [HttpGet("edit{id}")]
+    [HttpGet("{id:int}/edit")]
+
     public IActionResult Edit(int id)
     {
         var user = accountService.GetUserById(id);
@@ -82,15 +84,18 @@ public class UserController(AccountService accountService) : Controller
         return View(userViewModel);
     }
 
-    [HttpPost("edit{id}")]
-    public async Task<IActionResult> Edit(SingleUserViewModel userViewModel)
+    [HttpPost("{id:int}/edit")]
+
+    public async Task<IActionResult> Edit(int id, SingleUserViewModel userViewModel)
     {
         if (ModelState.IsValid)
         {
             var userDto = userViewModel.ToDto();
             try
             {
-                await accountService.UpdateUser(userDto);
+                var(check, result) = await accountService.UpdateUser(id, userDto);
+                userViewModel.Check = check;
+                userViewModel.Result = result;
             }
             catch (Exception)
             {
@@ -98,5 +103,19 @@ public class UserController(AccountService accountService) : Controller
             }
         }
         return View(userViewModel);
+    }
+
+    [HttpGet("delete{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            await accountService.DeleteUser(id);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+        return RedirectToAction("Index");
     }
 }
