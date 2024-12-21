@@ -94,7 +94,7 @@ public class MainContext : IdentityDbContext<User, IdentityRole<int>, int>
             new Product { Name = "Zeehond", Type = Type.SNOW, Price = 2500, Img = "seal.png" },
             new Product { Name = "Kameel", Type = Type.DESERT, Price = 2000, Img = "camel.png" },
             new Product { Name = "Slang", Type = Type.DESERT, Price = 1500, Img = "snake.png" },
-            new Product { Name = "T-Rex", Type = Type.VIP, Price = 5000, Img = "t-rex.png" },
+            new Product { Name = "T-Rex", Type = Type.VIP, Price = 5000, Img = "tyrannosaurus.png" },
             new Product { Name = "Unicorn", Type = Type.VIP, Price = 5000, Img = "unicorn.png" }
         );
     }
