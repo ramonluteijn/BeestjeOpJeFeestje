@@ -193,8 +193,31 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "HouseNumber", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Rank", "SecurityStamp", "TwoFactorEnabled", "UserName", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, 0, "6e6b5c58-1fc6-4bcb-81c8-4a8c2b497af8", "admin@example.com", true, "123", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "550d0465-e4e0-4a9d-b943-c800db1f6238", false, "admin", "1234AB" },
-                    { 2, 0, "36deb180-00f8-4970-be0b-f2690aee9cc2", "customer@example.com", true, "123", false, null, "CUSTOMER@EXAMPLE.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "5b6e2a22-4745-4fc7-9f91-4bd1bd868948", false, "customer", "1234AB" }
+                    { 1, 0, "8241e469-f9a8-4a6f-b16c-6529169d2568", "admin@example.com", true, "123", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "aa46f516-1555-40ab-83d7-f4da6d0fcc83", false, "admin", "1234AB" },
+                    { 2, 0, "3cfc53da-5bd6-4e03-957c-23a2dfbed63c", "customer@example.com", true, "123", false, null, "CUSTOMER@EXAMPLE.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "ce627b19-7a87-4f9e-99b6-24d6273ed413", false, "customer", "1234AB" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Img", "Name", "Price", "Type" },
+                values: new object[,]
+                {
+                    { 1, "monkey.png", "Aap", 2000, 0 },
+                    { 2, "elephant.png", "Olifant", 3000, 0 },
+                    { 3, "zebra.png", "Zebra", 2500, 0 },
+                    { 4, "lion.png", "Leeuw", 3500, 0 },
+                    { 5, "dog.png", "Hond", 1000, 1 },
+                    { 6, "donkey.png", "Ezel", 1500, 1 },
+                    { 7, "cow.png", "Koe", 2000, 1 },
+                    { 8, "rubber-duck.png", "Eend", 500, 1 },
+                    { 9, "chicken.png", "Kuiken", 250, 1 },
+                    { 10, "penguin.png", "Pinguïn", 2000, 2 },
+                    { 11, "polar-bear.png", "IJsbeer", 3000, 2 },
+                    { 12, "seal.png", "Zeehond", 2500, 2 },
+                    { 13, "camel.png", "Kameel", 2000, 3 },
+                    { 14, "snake.png", "Slang", 1500, 3 },
+                    { 15, "tyrannosaurus.png", "T-Rex", 5000, 4 },
+                    { 16, "unicorn.png", "Unicorn", 5000, 4 }
                 });
 
             migrationBuilder.InsertData(

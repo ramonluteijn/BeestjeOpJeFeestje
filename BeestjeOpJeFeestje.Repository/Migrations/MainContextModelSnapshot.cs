@@ -47,6 +47,136 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Img = "monkey.png",
+                            Name = "Aap",
+                            Price = 2000,
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Img = "elephant.png",
+                            Name = "Olifant",
+                            Price = 3000,
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Img = "zebra.png",
+                            Name = "Zebra",
+                            Price = 2500,
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Img = "lion.png",
+                            Name = "Leeuw",
+                            Price = 3500,
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Img = "dog.png",
+                            Name = "Hond",
+                            Price = 1000,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Img = "donkey.png",
+                            Name = "Ezel",
+                            Price = 1500,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Img = "cow.png",
+                            Name = "Koe",
+                            Price = 2000,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Img = "rubber-duck.png",
+                            Name = "Eend",
+                            Price = 500,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Img = "chicken.png",
+                            Name = "Kuiken",
+                            Price = 250,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Img = "penguin.png",
+                            Name = "Pinguïn",
+                            Price = 2000,
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Img = "polar-bear.png",
+                            Name = "IJsbeer",
+                            Price = 3000,
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Img = "seal.png",
+                            Name = "Zeehond",
+                            Price = 2500,
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Img = "camel.png",
+                            Name = "Kameel",
+                            Price = 2000,
+                            Type = 3
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Img = "snake.png",
+                            Name = "Slang",
+                            Price = 1500,
+                            Type = 3
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Img = "tyrannosaurus.png",
+                            Name = "T-Rex",
+                            Price = 5000,
+                            Type = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Img = "unicorn.png",
+                            Name = "Unicorn",
+                            Price = 5000,
+                            Type = 4
+                        });
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.User", b =>
@@ -133,7 +263,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e6b5c58-1fc6-4bcb-81c8-4a8c2b497af8",
+                            ConcurrencyStamp = "8241e469-f9a8-4a6f-b16c-6529169d2568",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -144,7 +274,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "550d0465-e4e0-4a9d-b943-c800db1f6238",
+                            SecurityStamp = "aa46f516-1555-40ab-83d7-f4da6d0fcc83",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             ZipCode = "1234AB"
@@ -153,7 +283,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "36deb180-00f8-4970-be0b-f2690aee9cc2",
+                            ConcurrencyStamp = "3cfc53da-5bd6-4e03-957c-23a2dfbed63c",
                             Email = "customer@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -164,7 +294,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "5b6e2a22-4745-4fc7-9f91-4bd1bd868948",
+                            SecurityStamp = "ce627b19-7a87-4f9e-99b6-24d6273ed413",
                             TwoFactorEnabled = false,
                             UserName = "customer",
                             ZipCode = "1234AB"
