@@ -13,6 +13,7 @@ namespace BeestjeOpJeFeestje.Data.Services
         public void AddToBasket(ProductDto product)
         {
             basket.Products.Add(product);
+            product.IsInBasket = true;
         }
         public void RemoveFromBasket(int productId)
         {
@@ -20,6 +21,7 @@ namespace BeestjeOpJeFeestje.Data.Services
             if (product != null)
             {
                 basket.Products.Remove(product);
+                product.IsInBasket = false;
             }
         }
         public List<ProductDto> GetBasketProducts()

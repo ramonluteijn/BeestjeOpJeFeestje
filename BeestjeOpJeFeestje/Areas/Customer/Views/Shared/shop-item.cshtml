@@ -15,10 +15,20 @@
                         <p class="price text-center">@Model.Price</p>
                     </div>
                     <div class="btnDiv p-0">
-                        <form method="post" asp-action="AddToBasket" asp-controller="Shop" asp-area="Customer">
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <button class="btn btn-primary w-100">Add to basket</button>
-                        </form>
+                        @if (Model.IsInBasket)
+                        {
+                            <form method="post" asp-action="RemoveFromBasket" asp-controller="OrderWizard" asp-area="Customer">
+                                <input type="hidden" name="productId" value="@Model.Id"/>
+                                <button class="btn btn-danger w-100">Remove from basket</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post" asp-action="AddToBasket" asp-controller="OrderWizard" asp-area="Customer">
+                                <input type="hidden" name="productId" value="@Model.Id"/>
+                                <button class="btn btn-primary w-100">Add to basket</button>
+                            </form>
+                        }
                     </div>
                 </div>
             </div>

@@ -34,7 +34,7 @@
         <div class="row mx-auto">
 
                 <div class="col-3 p-0 pe-1 my-3">
-                    <form id="filterForm" method="get" asp-action="Index">
+                    <form id="filterForm" method="get" asp-action="Shop">
                     @foreach (var type in Enum.GetValues(typeof(Type)).Cast<Type>())
                     {
                         <div class="form-check">
@@ -55,7 +55,6 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Next step</button>
-
         </div>
     @* } *@
 

@@ -1,0 +1,58 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Type = BeestjeOpJeFeestje.Repository.Enums.Type
+@* @model BeestjeOpJeFeestje.Areas.Customer.Models.ProductsOverViewModel *@
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ul class="step-bar">
+                <li class="step">Beestjes</li>
+                <li class="step">Accessoires</li>
+                <li class="step">Gegevens</li>
+                <li class="step">Bevestig</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mx-auto">
+        <form method="get" asp-action="Shop">
+            <label for="date">Select a date</label>
+            <input type="date" id="date" name="date" class="form-control" required />
+            <button type="submit" class="btn btn-primary">Next step</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .step-bar {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+        margin: 20px 0;
+    }
+    .step {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+    }
+    .step.completed {
+        background-color: #4caf50; /* Green color for completed steps */
+        color: white;
+    }
+    .step.active {
+        background-color: #2196F3; /* Blue color for active steps */
+        color: white;
+    }
+</style>
+
+<script>
+    function submitForm() {
+        document.getElementById('filterForm').submit();
+    }
+</script>

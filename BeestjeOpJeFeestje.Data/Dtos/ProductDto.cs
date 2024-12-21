@@ -9,4 +9,5 @@ public class ProductDto
     public Type Type { get; set; }
     public int Price { get; set; }
     public string Img { get; set; }
+    public bool IsInBasket { get; set; }
 }

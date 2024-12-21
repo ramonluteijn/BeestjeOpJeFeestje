@@ -6,16 +6,30 @@ namespace BeestjeOpJeFeestje.Areas.Customer.Controllers;
 
 [Area("Customer")]
 [Route("/shop")]
-public class ShopController(ProductService productService, BasketService basketService) : Controller
+public class OrderWizard(ProductService productService, BasketService basketService) : Controller
 {
     [HttpGet]
-    public IActionResult Index(DateOnly date, List<Type> selectedTypes)
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpGet("products")]
+    public IActionResult Shop(DateOnly date, List<Type> selectedTypes)
     {
         var products = productService.GetProducts();
+        var basketProducts = basketService.GetBasketProducts();
+
+        foreach (var product in products)
+        {
+            product.IsInBasket = basketProducts.Any(bp => bp.Id == product.Id);
+        }
+
         if (selectedTypes != null && selectedTypes.Any())
         {
             products = products.Where(p => selectedTypes.Contains(p.Type)).ToList();
         }
+
         var model = new ProductsOverViewModel
         {
             Products = products,
@@ -26,6 +40,8 @@ public class ShopController(ProductService productService, BasketService basketS
         return View(model);
     }
 
+
+
     [HttpPost]
     [Route("AddToBasket")]
     public IActionResult AddToBasket(int productId)
@@ -35,15 +51,7 @@ public class ShopController(ProductService productService, BasketService basketS
         {
             basketService.AddToBasket(product);
         }
-        return RedirectToAction("Index", new { date = DateTime.Now.Date, selectedTypes = new List<Type>() });
-    }
-
-    [HttpGet]
-    [Route("ViewBasket")]
-    public IActionResult ViewBasket()
-    {
-        var products = basketService.GetBasketProducts();
-        return View(products);
+        return RedirectToAction("Shop", new { date = DateTime.Now.Date, selectedTypes = new List<Type>() });
     }
 
     [HttpPost]
@@ -51,6 +59,6 @@ public class ShopController(ProductService productService, BasketService basketS
     public IActionResult RemoveFromBasket(int productId)
     {
          basketService.RemoveFromBasket(productId);
-         return RedirectToAction("ViewBasket");
+         return RedirectToAction("Shop", new { date = DateTime.Now.Date, selectedTypes = new List<Type>() });
     }
 }
