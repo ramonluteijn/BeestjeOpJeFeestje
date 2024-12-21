@@ -30,5 +30,13 @@
     <ItemGroup>
       <AdditionalFiles Include="Areas\Auth\Views\Account\Login.cshtml" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\Images\Icons\Desert\" />
+      <Folder Include="wwwroot\Images\Icons\Farm\" />
+      <Folder Include="wwwroot\Images\Icons\Jungle\" />
+      <Folder Include="wwwroot\Images\Icons\Snow\" />
+      <Folder Include="wwwroot\Images\Icons\Vip\" />
+    </ItemGroup>
     
 </Project>

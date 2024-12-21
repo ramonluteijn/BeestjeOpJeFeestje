@@ -1,5 +1,6 @@
 using BeestjeOpJeFeestje.Data.Services;
 using BeestjeOpJeFeestje.Repository;
+using BeestjeOpJeFeestje.Repository.Factories;
 using BeestjeOpJeFeestje.Repository.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,10 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
     .AddEntityFrameworkStores<MainContext>()
     .AddDefaultTokenProviders();
 
+
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ImageFactory>();
 
 var app = builder.Build();
 

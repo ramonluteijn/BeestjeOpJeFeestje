@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestje.Repository.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20241217193848_Initial")]
+    [Migration("20241221115140_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,33 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
 
             modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.User", b =>
                 {
@@ -109,7 +136,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "497e9982-da96-4fd4-a80c-fa4a4c3e3116",
+                            ConcurrencyStamp = "6e6b5c58-1fc6-4bcb-81c8-4a8c2b497af8",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -120,7 +147,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "878f29e1-ac8e-485f-b5d2-2536d74bc777",
+                            SecurityStamp = "550d0465-e4e0-4a9d-b943-c800db1f6238",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             ZipCode = "1234AB"
@@ -129,7 +156,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a4f2b66-0d74-48a1-92de-583b8a4e8807",
+                            ConcurrencyStamp = "36deb180-00f8-4970-be0b-f2690aee9cc2",
                             Email = "customer@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -140,7 +167,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "46486e93-2005-4d41-8417-58aa09a46daa",
+                            SecurityStamp = "5b6e2a22-4745-4fc7-9f91-4bd1bd868948",
                             TwoFactorEnabled = false,
                             UserName = "customer",
                             ZipCode = "1234AB"

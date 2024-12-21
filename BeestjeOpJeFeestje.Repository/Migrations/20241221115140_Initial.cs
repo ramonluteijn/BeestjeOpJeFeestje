@@ -58,6 +58,22 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Img = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -177,8 +193,8 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "HouseNumber", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Rank", "SecurityStamp", "TwoFactorEnabled", "UserName", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, 0, "497e9982-da96-4fd4-a80c-fa4a4c3e3116", "admin@example.com", true, "123", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "878f29e1-ac8e-485f-b5d2-2536d74bc777", false, "admin", "1234AB" },
-                    { 2, 0, "7a4f2b66-0d74-48a1-92de-583b8a4e8807", "customer@example.com", true, "123", false, null, "CUSTOMER@EXAMPLE.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "46486e93-2005-4d41-8417-58aa09a46daa", false, "customer", "1234AB" }
+                    { 1, 0, "6e6b5c58-1fc6-4bcb-81c8-4a8c2b497af8", "admin@example.com", true, "123", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "550d0465-e4e0-4a9d-b943-c800db1f6238", false, "admin", "1234AB" },
+                    { 2, 0, "36deb180-00f8-4970-be0b-f2690aee9cc2", "customer@example.com", true, "123", false, null, "CUSTOMER@EXAMPLE.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "5b6e2a22-4745-4fc7-9f91-4bd1bd868948", false, "customer", "1234AB" }
                 });
 
             migrationBuilder.InsertData(
@@ -247,6 +263,9 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

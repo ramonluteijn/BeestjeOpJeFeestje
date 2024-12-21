@@ -1,8 +1,8 @@
-﻿@using BeestjeOpJeFeestje.Repository.Enums
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BeestjeOpJeFeestje.Areas.Admin.Models.SingleUserViewModel
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Type = BeestjeOpJeFeestje.Repository.Enums.Type
+@model BeestjeOpJeFeestje.Areas.Admin.Models.SingleProductViewModel
 @{
-    ViewData["Title"] = "Create customer";
+    ViewData["Title"] = "Create product";
 }
 
 <div class="page-header">
@@ -13,7 +13,7 @@
                     <a asp-action="Index">Home</a>
                 </li>
                 <li class="breadcrumb-item mb-0">
-                    <a asp-action="Index">Customers</a>
+                    <a asp-action="Index">Products</a>
                 </li>
                 <li class="breadcrumb-item mb-0 active" aria-current="page">Add</li>
             </ol>
@@ -26,7 +26,7 @@
 <div class="container bg-light rounded-3 p-3">
     <div class="bg-white border rounded-3 p-4 pt-5">
 
-        <h1 class="fs-3 fw-bold text-center">Edit customer</h1>
+        <h1 class="fs-3 fw-bold text-center">Edit product</h1>
         <p class="pb-4 text-center">Please fill in the details below</p>
 
         @if (Model != null && !string.IsNullOrEmpty(Model.Result))
@@ -45,31 +45,16 @@
                     <span asp-validation-for="@Model.Name" class="text-danger"></span>
                 </div>
                 <div class="my-2">
-                    <label asp-for="@Model.Email">Email *</label>
-                    <input asp-for="@Model.Email" class="form-control" placeholder="Email"/>
-                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                    <label asp-for="@Model.Price">Price *</label>
+                    <input asp-for="@Model.Price" class="form-control" placeholder="Price"/>
+                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
                 </div>
                 <div class="my-2">
-                    <label asp-for="@Model.ZipCode">ZipCode *</label>
-                    <input asp-for="@Model.ZipCode" class="form-control" placeholder="ZipCode"/>
-                    <span asp-validation-for="@Model.ZipCode" class="text-danger"></span>
+                    <label asp-for="@Model.Type">Type *</label>
+                    <select asp-for="@Model.Type" class="form-control" asp-items="Html.GetEnumSelectList<Type>()"></select>
+                    <span asp-validation-for="@Model.Type" class="text-danger"></span>
                 </div>
-                <div class="my-2">
-                    <label asp-for="@Model.HouseNumber">HouseNumber *</label>
-                    <input asp-for="@Model.HouseNumber" class="form-control" placeholder="HouseNumber"/>
-                    <span asp-validation-for="@Model.HouseNumber" class="text-danger"></span>
-                </div>
-                <div class="my-2">
-                    <label asp-for="@Model.PhoneNumber">PhoneNumber *</label>
-                    <input asp-for="@Model.PhoneNumber" class="form-control" placeholder="PhoneNumber"/>
-                    <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
-                </div>
-
-                <div class="my-2">
-                    <label asp-for="@Model.Rank">Rank *</label>
-                    <select asp-for="@Model.Rank" class="form-control" asp-items="Html.GetEnumSelectList<Rank>()"></select>
-                    <span asp-validation-for="@Model.Rank" class="text-danger"></span>
-                </div>
+                <img src="~/Images/Icons/@Model.Type/@Model.Img" class="img-fluid" alt="@Model.Name"> <!-- todo: image isnt loading when edited-->
             </div>
 
             <div class="d-flex justify-content-between pt-2">
