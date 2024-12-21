@@ -1,7 +1,7 @@
 ﻿@model BeestjeOpJeFeestje.Data.Dtos.ProductDto
 
 <div class="col item d-flex">
-    <div class="h-100">@*give id with*@
+    <div class="h-100">
         <div class="card h-100 p-3 position-relative">
             <div class="image-container position-relative">
                 <img src="~/Images/Icons/@Model.Type/@Model.Img" alt="@Model.Name" class="card-img-top">
@@ -15,7 +15,10 @@
                         <p class="price text-center">@Model.Price</p>
                     </div>
                     <div class="btnDiv p-0">
-                        <button class="btn btn-primary w-100">Add to cart</button>
+                        <form method="post" asp-action="AddToBasket" asp-controller="Shop" asp-area="Customer">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <button class="btn btn-primary w-100">Add to basket</button>
+                        </form>
                     </div>
                 </div>
             </div>

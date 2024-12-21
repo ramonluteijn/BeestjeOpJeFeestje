@@ -7,5 +7,6 @@ public class ProductsOverViewModel
 {
     public IEnumerable<ProductDto> Products { get; set; }
     public List<Type> SelectedTypes { get; set; } = new List<Type>();
-
+    public DateOnly Date { get; set; }
+    public int BasketCount { get; set; }
 }

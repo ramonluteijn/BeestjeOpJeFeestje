@@ -30,6 +30,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddSingleton<BasketService>();
 builder.Services.AddScoped<ImageFactory>();
 
 var app = builder.Build();
