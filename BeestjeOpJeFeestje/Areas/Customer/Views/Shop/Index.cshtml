@@ -1,0 +1,40 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Type = BeestjeOpJeFeestje.Repository.Enums.Type
+@model BeestjeOpJeFeestje.Areas.Customer.Models.ProductsOverViewModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="row mx-auto">
+    @Model.Products.Count() items found
+</div>
+
+<form id="filterForm" method="get" asp-action="Index">
+    <div class="row mx-auto">
+        <div class="col-3 p-0 pe-1 my-3">
+            @foreach (var type in Enum.GetValues(typeof(Type)).Cast<Type>())
+            {
+                <div class="form-check">
+                    <input name="selectedTypes" class="form-check-input" type="checkbox" value="@type" id="type_@type" @(Model.SelectedTypes.Contains(type) ? "checked" : "") onchange="submitForm()" />
+                    <label class="form-check-label" for="type_@type">@type</label>
+                </div>
+            }
+        </div>
+        <div class="col-9 mt-3 mb-3 p-0 gallery">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var product in Model.Products)
+                    {
+                        <partial name="~/Areas/Customer/Views/Shared/shop-item.cshtml" model="product"/>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function submitForm() {
+        document.getElementById('filterForm').submit();
+    }
+</script>

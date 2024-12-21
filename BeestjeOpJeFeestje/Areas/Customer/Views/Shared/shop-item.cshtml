@@ -1,0 +1,24 @@
+﻿@model BeestjeOpJeFeestje.Data.Dtos.ProductDto
+
+<div class="col item d-flex">
+    <div class="h-100">@*give id with*@
+        <div class="card h-100 p-3 position-relative">
+            <div class="image-container position-relative">
+                <img src="~/Images/Icons/@Model.Type/@Model.Img" alt="@Model.Name" class="card-img-top">
+            </div>
+            <div class="card-content w-100 h-100">
+                <div class="card-body">
+                    <p class="card-text-title text-center">@Model.Name</p>
+                </div>
+                <div class="card-footer align-items-center row mx-auto w-100">
+                    <div class="priceDiv">
+                        <p class="price text-center">@Model.Price</p>
+                    </div>
+                    <div class="btnDiv p-0">
+                        <button class="btn btn-primary w-100">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

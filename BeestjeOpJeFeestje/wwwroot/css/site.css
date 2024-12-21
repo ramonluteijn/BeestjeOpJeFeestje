@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.item {
+  width: 100%;
+  max-width: 33%;
+}

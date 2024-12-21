@@ -38,5 +38,10 @@
       <Folder Include="wwwroot\Images\Icons\Snow\" />
       <Folder Include="wwwroot\Images\Icons\Vip\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Areas\Customer\Shared\shop-item.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Customer\Shared\_Layout.cshtml" />
+    </ItemGroup>
     
 </Project>
