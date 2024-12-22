@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BeestjeOpJeFeestje.Areas.Admin.Models.ProductsOverViewModel
+@model BeestjeOpJeFeestje.Areas.Admin.Models.OrdersOverviewViewModel
 @{
     ViewData["Title"] = "Products";
 }
@@ -11,12 +11,9 @@
                 <li class="breadcrumb-item mb-0">
                     <a asp-action="Index">Home</a>
                 </li>
-                <li class="breadcrumb-item mb-0 active" aria-current="page">Product</li>
+                <li class="breadcrumb-item mb-0 active" aria-current="page">Order</li>
             </ol>
         </nav>
-        <div>
-            @Html.ActionLink("Create product", "Create", "Product", new { }, new { @class = "btn btn-primary" })
-        </div>
     </div>
 </div>
 
@@ -31,21 +28,21 @@
         <thead>
         <tr>
             <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Rank</th>
+            <th scope="col">order for</th>
+            <th scope="col">email</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
-        @foreach(var product in Model.Products)
+        @foreach(var order in Model.Orders)
         {
             <tr>
-                <td>@product.Name</td>
-                <td>@product.Type</td>
-                <td>@product.Price</td>
+                <td>@order.Name</td>
+                <td>@order.OrderFor</td>
+                <td>@order.Email</td>
                 <td class="text-end">
-                    @Html.ActionLink("Details", "Details", "Product", new { id = product.Id })
-                    @Html.ActionLink("Update", "Edit", "Product", new { id = product.Id })
+                    @Html.ActionLink("Details", "Details", "Order", new { id = order.Id })
+                    @Html.ActionLink("Update", "Edit", "Order", new { id = order.Id })
                 </td>
             </tr>
         }

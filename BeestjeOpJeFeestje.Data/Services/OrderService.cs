@@ -29,4 +29,77 @@ public class OrderService(MainContext context)
             context.SaveChanges();
         }
     }
+
+    public List<OrderDto> GetAllOrders()
+    {
+        return context.Orders
+            .Select(x => new OrderDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Email = x.Email,
+                ZipCode = x.ZipCode,
+                HouseNumber = x.HouseNumber,
+                PhoneNumber = x.PhoneNumber,
+                OrderFor = x.OrderFor,
+                OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
+                {
+                    ProductId = y.ProductId
+                }).ToList()
+            })
+            .ToList();
+    }
+
+    public OrderDto? GetOrder(int id)
+    {
+        return context.Orders
+            .Where(x => x.Id == id)
+            .Select(x => new OrderDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Email = x.Email,
+                ZipCode = x.ZipCode,
+                HouseNumber = x.HouseNumber,
+                PhoneNumber = x.PhoneNumber,
+                OrderFor = x.OrderFor,
+                OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
+                {
+                    ProductId = y.ProductId
+                }).ToList()
+            })
+            .FirstOrDefault();
+    }
+
+    public void DeleteOrder(int id)
+    {
+        var order = context.Orders.FirstOrDefault(x => x.Id == id);
+
+        if (order != null)
+        {
+            context.Orders.Remove(order);
+            context.SaveChanges();
+        }
+    }
+
+    public OrderDto? GetOrderByUserId(int userId)
+    {
+        return context.Orders
+            .Where(x => x.UserId == userId)
+            .Select(x => new OrderDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Email = x.Email,
+                ZipCode = x.ZipCode,
+                HouseNumber = x.HouseNumber,
+                PhoneNumber = x.PhoneNumber,
+                OrderFor = x.OrderFor,
+                OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
+                {
+                    ProductId = y.ProductId
+                }).ToList()
+            })
+            .FirstOrDefault();
+    }
 }

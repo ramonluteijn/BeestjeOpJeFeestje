@@ -16,7 +16,7 @@ public class ProductController(ProductService productService) : Controller
         var products = productService.GetProducts();
         var productsOverviewModel = new ProductsOverViewModel
         {
-            products = products
+            Products = products
         };
         return View(productsOverviewModel);
     }
