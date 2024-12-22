@@ -40,6 +40,10 @@
                     <td>@product.Price</td>
                 </tr>
             }
+            <tr class="fw-bold">
+                <td>Total</td>
+                <td>@Model.ProductsOverViewModel.GetTotallPrice()</td>
+            </tr>
             </tbody>
         </table>
         <form asp-action="ConfirmationPost" method="post" class="mx-auto" style="max-width: 30rem">
