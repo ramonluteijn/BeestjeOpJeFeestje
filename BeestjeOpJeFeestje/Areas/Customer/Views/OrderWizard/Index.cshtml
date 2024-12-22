@@ -1,6 +1,4 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Type = BeestjeOpJeFeestje.Repository.Enums.Type
-@* @model BeestjeOpJeFeestje.Areas.Customer.Models.ProductsOverViewModel *@
 @{
     ViewData["Title"] = "Products";
 }
@@ -25,34 +23,3 @@
         </form>
     </div>
 </div>
-
-<style>
-    .step-bar {
-        list-style-type: none;
-        display: flex;
-        justify-content: space-between;
-        padding: 0;
-        margin: 20px 0;
-    }
-    .step {
-        flex: 1;
-        text-align: center;
-        padding: 10px;
-        background-color: #e0e0e0;
-        border-radius: 5px;
-    }
-    .step.completed {
-        background-color: #4caf50; /* Green color for completed steps */
-        color: white;
-    }
-    .step.active {
-        background-color: #2196F3; /* Blue color for active steps */
-        color: white;
-    }
-</style>
-
-<script>
-    function submitForm() {
-        document.getElementById('filterForm').submit();
-    }
-</script>

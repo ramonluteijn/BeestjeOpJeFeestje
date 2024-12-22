@@ -1,0 +1,71 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BeestjeOpJeFeestje.Areas.Customer.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ul class="step-bar">
+                <li class="step">Beestjes</li>
+                <li class="step">Accessoires</li>
+                <li class="step">Gegevens</li>
+                <li class="step">Bevestig</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mx-auto">
+        <div class="col-9">
+            <h3>Enter Your Details</h3>
+            <form asp-action="ContactPost" method="post" class="mx-auto" style="max-width: 30rem">
+                <input type="hidden" asp-for="ProductsOverViewModel.BasketCount"/>
+                <input type="hidden" asp-for="ProductsOverViewModel.Products"/>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3">
+                    <div class="my-2">
+                        <label asp-for="@Model.Name">Name *</label>
+                        <input asp-for="@Model.Name" class="form-control" placeholder="Name"/>
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                    <div class="my-2">
+                        <label asp-for="@Model.Email">Email *</label>
+                        <input asp-for="@Model.Email" class="form-control" placeholder="Email"/>
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                    </div>
+                    <div class="my-2">
+                        <label asp-for="@Model.ZipCode">ZipCode *</label>
+                        <input asp-for="@Model.ZipCode" class="form-control" placeholder="ZipCode"/>
+                        <span asp-validation-for="@Model.ZipCode" class="text-danger"></span>
+                    </div>
+                    <div class="my-2">
+                        <label asp-for="@Model.HouseNumber">HouseNumber *</label>
+                        <input asp-for="@Model.HouseNumber" class="form-control" placeholder="HouseNumber"/>
+                        <span asp-validation-for="@Model.HouseNumber" class="text-danger"></span>
+                    </div>
+                    <div class="my-2">
+                        <label asp-for="@Model.PhoneNumber">PhoneNumber *</label>
+                        <input asp-for="@Model.PhoneNumber" class="form-control" placeholder="PhoneNumber"/>
+                        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between pt-2">
+                    <button class="btn btn-primary ms-1" type="submit">Next step</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-3">
+            @foreach(var product in Model.ProductsOverViewModel.Products)
+            {
+                <div class="d-flex flex-row">
+                    <img src="~/Images/Icons/@product.Type/@product.Img" alt="@product.Name" class="w-25"/>
+                    <p>@product.Name</p>
+                    <p>@product.Price</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@ namespace BeestjeOpJeFeestje.Areas.Customer.Controllers;
 
 [Area("Customer")]
 [Route("/shop")]
-public class OrderWizard(ProductService productService, BasketService basketService) : Controller
+public class OrderWizard(ProductService productService, BasketService basketService, OrderService orderService, ILogger<OrderWizard> logger) : Controller
 {
     [HttpGet]
     public IActionResult Index()
@@ -15,7 +15,7 @@ public class OrderWizard(ProductService productService, BasketService basketServ
     }
 
     [HttpGet("products")]
-    public IActionResult Shop(DateOnly date, List<Type> selectedTypes)
+    public IActionResult Shop(DateOnly date, List<Type>? selectedTypes)
     {
         var products = productService.GetProducts();
         var basketProducts = basketService.GetBasketProducts();
@@ -25,22 +25,78 @@ public class OrderWizard(ProductService productService, BasketService basketServ
             product.IsInBasket = basketProducts.Any(bp => bp.Id == product.Id);
         }
 
+        // todo refactor to get products based on date and type
         if (selectedTypes != null && selectedTypes.Any())
         {
             products = products.Where(p => selectedTypes.Contains(p.Type)).ToList();
         }
 
-        var model = new ProductsOverViewModel
+        var model = new OrderViewModel()
         {
-            Products = products,
-            Date = date,
-            SelectedTypes = selectedTypes ?? new List<Type>(),
-            BasketCount = basketService.GetBasketItemCount()
+            OrderFor = date,
+            ProductsOverViewModel = new ProductsOverViewModel
+            {
+                Products = products,
+                SelectedTypes = selectedTypes ?? new List<Type>(),
+                BasketCount = basketService.GetBasketItemCount()
+            }
+        };
+        return View(model);
+    }
+
+    [HttpGet("contact")]
+    public IActionResult Contact(DateOnly date)
+    {
+        var model = new OrderViewModel()
+        {
+            OrderFor = date,
+            ProductsOverViewModel = new ProductsOverViewModel
+            {
+                Products = basketService.GetBasketProducts(),
+                SelectedTypes = new List<Type>(),
+                BasketCount = basketService.GetBasketItemCount()
+            },
         };
         return View(model);
     }
 
 
+    //todo
+    [HttpPost("contact")]
+    public IActionResult ContactPost(OrderViewModel model)
+    {
+//todo products not populating correctly
+        model.ProductsOverViewModel = new ProductsOverViewModel
+        {
+            Products = basketService.GetBasketProducts(),
+        };
+
+        return ModelState.IsValid ? RedirectToAction("Confirmation", model) : RedirectToAction("Contact");
+    }
+
+
+   [HttpGet("confirmation")]
+    public IActionResult Confirmation(OrderViewModel model)
+    {
+        model.ProductsOverViewModel = new ProductsOverViewModel
+        {
+            Products = basketService.GetBasketProducts(),
+        };
+        return View(model);
+    }
+
+    [HttpPost("confirmation")]
+    public IActionResult ConfirmationPost(OrderViewModel model)
+    {
+        model.ProductsOverViewModel = new ProductsOverViewModel
+        {
+            Products = basketService.GetBasketProducts(),
+        };
+
+        orderService.CreateOrder(model.ToDto());
+        basketService.ClearBasket();
+        return RedirectToAction("Index");
+    }
 
     [HttpPost]
     [Route("AddToBasket")]

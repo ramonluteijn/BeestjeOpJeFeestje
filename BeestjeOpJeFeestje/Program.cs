@@ -30,6 +30,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<OrderService>();
 builder.Services.AddSingleton<BasketService>();
 builder.Services.AddScoped<ImageFactory>();
 

@@ -15,6 +15,8 @@ public class MainContext : IdentityDbContext<User, IdentityRole<int>, int>
     }
 
     public virtual DbSet<Product> Products { get; set; } = null!;
+    public virtual DbSet<Order> Orders { get; set; } = null!;
+    public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -30,6 +32,26 @@ public class MainContext : IdentityDbContext<User, IdentityRole<int>, int>
 
     private static void CreateRelations(ModelBuilder builder)
     {
+        builder.Entity<Order>()
+            .HasMany(o => o.OrderDetails)
+            .WithOne()
+            .HasForeignKey(od => od.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Order>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(o => o.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<OrderDetail>()
+            .HasKey(od => new { od.OrderId, od.ProductId });
+
+        builder.Entity<OrderDetail>()
+            .HasOne<Product>()
+            .WithMany()
+            .HasForeignKey(od => od.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void SeedData(ModelBuilder builder)

@@ -22,6 +22,62 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HouseNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("OrderFor")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -263,7 +319,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8241e469-f9a8-4a6f-b16c-6529169d2568",
+                            ConcurrencyStamp = "fd6b0012-1fa5-44ea-b965-67cd99d68f5a",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -274,7 +330,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "aa46f516-1555-40ab-83d7-f4da6d0fcc83",
+                            SecurityStamp = "cf47e011-c082-4d1a-a026-d4cd19b9114a",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             ZipCode = "1234AB"
@@ -283,7 +339,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3cfc53da-5bd6-4e03-957c-23a2dfbed63c",
+                            ConcurrencyStamp = "f24346db-c13d-43f3-af69-abb0511e22c1",
                             Email = "customer@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -294,7 +350,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "ce627b19-7a87-4f9e-99b6-24d6273ed413",
+                            SecurityStamp = "dd06c6af-0f9a-45d7-98d8-ceab3b2238fb",
                             TwoFactorEnabled = false,
                             UserName = "customer",
                             ZipCode = "1234AB"
@@ -460,6 +516,29 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.Order", b =>
+                {
+                    b.HasOne("BeestjeOpJeFeestje.Repository.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.OrderDetail", b =>
+                {
+                    b.HasOne("BeestjeOpJeFeestje.Repository.Models.Order", null)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BeestjeOpJeFeestje.Repository.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -509,6 +588,11 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BeestjeOpJeFeestje.Repository.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

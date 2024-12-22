@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Type = BeestjeOpJeFeestje.Repository.Enums.Type
-@model BeestjeOpJeFeestje.Areas.Customer.Models.ProductsOverViewModel
+@model BeestjeOpJeFeestje.Areas.Customer.Models.OrderViewModel
 @{
     ViewData["Title"] = "Products";
 }
@@ -17,99 +17,36 @@
         </div>
     </div>
 
-<span>Items in basket: @Model.BasketCount</span>
+    <span>Items in basket: @Model.ProductsOverViewModel.BasketCount</span>
 
-    @* Step 1: Date Selection *@
-    @* <div class="row mx-auto"> *@
-    @*     <form method="get" asp-action="Index"> *@
-    @*         <label for="date">Select a date</label> *@
-    @*         <input type="date" id="date" name="date" class="form-control" required /> *@
-    @*         <button type="submit" class="btn btn-primary">Next step</button> *@
-    @*     </form> *@
-    @* </div> *@
-
-    @* Step 2: Filter Products *@
-    @* @if (Model.Date != default(DateOnly)) *@
-    @* { *@
-        <div class="row mx-auto">
-
-                <div class="col-3 p-0 pe-1 my-3">
-                    <form id="filterForm" method="get" asp-action="Shop">
-                    @foreach (var type in Enum.GetValues(typeof(Type)).Cast<Type>())
-                    {
-                        <div class="form-check">
-                            <input name="selectedTypes" class="form-check-input" type="checkbox" value="@type" id="type_@type" @(Model.SelectedTypes.Contains(type) ? "checked" : "") onchange="submitForm()"/>
-                            <label class="form-check-label" for="type_@type">@type</label>
-                        </div>
-                    }
-                    </form>
-                </div>
-                <div class="col-9 mt-3 mb-3 p-0 gallery">
-                    <div class="container">
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            @foreach (var product in Model.Products)
-                            {
-                                <partial name="~/Areas/Customer/Views/Shared/shop-item.cshtml" model="product"/>
-                            }
-                        </div>
+    <div class="row mx-auto">
+        <div class="col-3 p-0 pe-1 my-3">
+            <form id="filterForm" method="get" asp-action="Shop">
+                @foreach (var type in Enum.GetValues(typeof(Type)).Cast<Type>())
+                {
+                    <div class="form-check">
+                        <input name="selectedTypes" class="form-check-input" type="checkbox" value="@type" id="type_@type" @(Model.ProductsOverViewModel.SelectedTypes.Contains(type) ? "checked" : "") onchange="submitForm()"/>
+                        <label class="form-check-label" for="type_@type">@type</label>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Next step</button>
-        </div>
-    @* } *@
-
-    @* Step 3: User Data Entry *@
-    @if (Model.SelectedTypes.Any()) // Check if any types have been selected
-    {
-        <div class="row mx-auto">
-            <h3>Enter Your Details</h3>
-            <form method="post" asp-action="SubmitDetails">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" class="form-control" required />
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control" required />
-                <button type="submit" class="btn btn-primary">Next step</button>
+                }
             </form>
         </div>
-    }
-    @* *@
-    @* $1$ Step 4: Confirmation #1# *@
-    @* @if (Model.UserDetailsSubmitted) // Check if user details have been submitted *@
-    @* { *@
-    @*     <div class="row mx-auto"> *@
-    @*         <h3>Confirmation</h3> *@
-    @*         <p>Thank you for your submission!</p> *@
-    @*         <p>Your selected date: @Model.Date</p> *@
-    @*         <p>Your selected types: @string.Join(", ", Model.SelectedTypes)</p> *@
-    @*         <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Index", "Home")'">Finish</button> *@
-    @*     </div> *@
-    @* } *@
-</div>
+        <div class="col-9 mt-3 mb-3 p-0 gallery">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var product in Model.ProductsOverViewModel.Products)
+                    {
+                        <partial name="~/Areas/Customer/Views/Shared/shop-item.cshtml" model="product"/>
+                    }
+                </div>
+            </div>
+        </div>
+        <form method="post" asp-action="Contact">
+            <input type="submit" class="btn btn-primary" value="Next step"/>
 
-<style>
-    .step-bar {
-        list-style-type: none;
-        display: flex;
-        justify-content: space-between;
-        padding: 0;
-        margin: 20px 0;
-    }
-    .step {
-        flex: 1;
-        text-align: center;
-        padding: 10px;
-        background-color: #e0e0e0;
-        border-radius: 5px;
-    }
-    .step.completed {
-        background-color: #4caf50; /* Green color for completed steps */
-        color: white;
-    }
-    .step.active {
-        background-color: #2196F3; /* Blue color for active steps */
-        color: white;
-    }
-</style>
+        </form>
+    </div>
+</div>
 
 <script>
     function submitForm() {
