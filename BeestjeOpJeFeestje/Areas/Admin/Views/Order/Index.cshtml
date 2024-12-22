@@ -21,7 +21,7 @@
 
 <div class="container my-4">
     <div class="d-flex justify-content-between pb-3">
-        <h1 class="fs-3 fw-bold">Products overview</h1>
+        <h1 class="fs-3 fw-bold">Order overview</h1>
     </div>
 
     <table class="table table-bordered bg-white">
@@ -30,7 +30,6 @@
             <th scope="col">Name</th>
             <th scope="col">order for</th>
             <th scope="col">email</th>
-            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -40,10 +39,6 @@
                 <td>@order.Name</td>
                 <td>@order.OrderFor</td>
                 <td>@order.Email</td>
-                <td class="text-end">
-                    @Html.ActionLink("Details", "Details", "Order", new { id = order.Id })
-                    @Html.ActionLink("Update", "Edit", "Order", new { id = order.Id })
-                </td>
             </tr>
         }
         </tbody>
