@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Type = BeestjeOpJeFeestje.Repository.Enums.Type
+@model BeestjeOpJeFeestje.Areas.Admin.Models.SingleProductViewModel
+@{
+    ViewData["Title"] = "Create product";
+}
+
+<div class="page-header">
+    <div class="container h-100 d-flex align-items-center justify-content-between">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item mb-0">
+                    <a asp-action="Index">Home</a>
+                </li>
+                <li class="breadcrumb-item mb-0">
+                    <a asp-action="Index">Products</a>
+                </li>
+                <li class="breadcrumb-item mb-0 active" aria-current="page">Add</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="border-top"></div>
+
+<div class="container bg-light rounded-3 p-3">
+    <div class="bg-white border rounded-3 p-4 pt-5">
+
+        <h1 class="fs-3 fw-bold text-center">Edit product</h1>
+        <p class="pb-4 text-center">Please fill in the details below</p>
+
+        @if (Model != null && !string.IsNullOrEmpty(Model.Result))
+        {
+            <div class="alert @(Model.Check ? "alert-success" : "alert-danger")">
+                <strong>@(Model.Check ? "Updated:" : "Error:")</strong> @Model.Result
+            </div>
+        }
+
+        <form asp-action="Edit" method="post" class="mx-auto" style="max-width: 30rem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <div class="my-2">
+                    <label asp-for="@Model.Name">Name *</label>
+                    <input asp-for="@Model.Name" class="form-control" placeholder="Name"/>
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="my-2">
+                    <label asp-for="@Model.Price">Price *</label>
+                    <input asp-for="@Model.Price" class="form-control" placeholder="Price"/>
+                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                </div>
+                <div class="my-2">
+                    <label asp-for="@Model.Type">Type *</label>
+                    <select asp-for="@Model.Type" class="form-control" asp-items="Html.GetEnumSelectList<Type>()"></select>
+                    <span asp-validation-for="@Model.Type" class="text-danger"></span>
+                </div>
+                <img src="~/Images/Icons/@Model.Type/@Model.Img" class="img-fluid" alt="@Model.Name"> <!-- todo: image isnt loading when edited-->
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary">Delete</a>
+                <button class="btn btn-primary ms-1" type="submit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>

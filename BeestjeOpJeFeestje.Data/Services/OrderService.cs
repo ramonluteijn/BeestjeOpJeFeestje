@@ -82,10 +82,10 @@ public class OrderService(MainContext context)
         }
     }
 
-    public OrderDto? GetOrderByUserId(int userId)
+    public List<OrderDto> GetAllOrderByUserId(int id)
     {
         return context.Orders
-            .Where(x => x.UserId == userId)
+            .Where(x => x.UserId == id)
             .Select(x => new OrderDto()
             {
                 Id = x.Id,
@@ -100,6 +100,6 @@ public class OrderService(MainContext context)
                     ProductId = y.ProductId
                 }).ToList()
             })
-            .FirstOrDefault();
+            .ToList();
     }
 }
