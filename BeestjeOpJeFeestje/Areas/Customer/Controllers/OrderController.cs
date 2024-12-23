@@ -36,9 +36,12 @@ public class OrderController(OrderService orderService): Controller
             ZipCode = order.ZipCode,
             HouseNumber = order.HouseNumber,
             PhoneNumber = order.PhoneNumber,
-            OrderFor = order.OrderFor
-            //also return product data
-
+            OrderFor = order.OrderFor,
+            TotalPrice = order.TotalPrice,
+            ProductsOverViewModel = new ProductsOverViewModel
+            {
+                Products = order.OrderDetails.Select(od => od.Product).ToList()
+            }
         };
         return View(model);
     }
