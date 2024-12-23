@@ -12,6 +12,7 @@ public class OrderViewModel
     public string PhoneNumber { get; set; } = null!;
     public DateOnly OrderFor { get; set; }
     public ProductsOverViewModel ProductsOverViewModel { get; set; } = new();
+    public int TotalPrice { get; set; }
 
     public OrderDto ToDto()
     {
@@ -23,6 +24,7 @@ public class OrderViewModel
             ZipCode = this.ZipCode,
             PhoneNumber = this.PhoneNumber,
             OrderFor = this.OrderFor,
+            TotalPrice = this.TotalPrice,
             OrderDetails = this.ProductsOverViewModel.Products
                 .Where(p => p.IsInBasket)
                 .Select(p => new OrderDetailsDto()

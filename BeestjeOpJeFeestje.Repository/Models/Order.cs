@@ -10,5 +10,6 @@ public class Order
     public string HouseNumber { get; set; } = null!;
     public DateOnly OrderFor { get; set; }
     public int? UserId { get; set; }
+    public int TotalPrice { get; set; }
     public List<OrderDetail> OrderDetails { get; set; } = new();
 }
