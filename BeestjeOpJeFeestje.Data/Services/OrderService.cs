@@ -1,4 +1,5 @@
 ﻿using BeestjeOpJeFeestje.Data.Dtos;
+using BeestjeOpJeFeestje.Data.Rules;
 using BeestjeOpJeFeestje.Repository;
 using BeestjeOpJeFeestje.Repository.Enums;
 using BeestjeOpJeFeestje.Repository.Models;
@@ -12,7 +13,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
     {
         if (orderDto != null)
         {
-            CheckRules(userId, orderDto);
+            var discount = CheckRules(userId, orderDto);
             var order = new Order()
             {
                 Name = orderDto.Name,
@@ -22,7 +23,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 PhoneNumber = orderDto.PhoneNumber,
                 OrderFor = orderDto.OrderFor,
                 UserId = userId,
-                TotalPrice = orderDto.TotalPrice,
+                TotalPrice = orderDto.TotalPrice * (100 - discount) / 100,
                 OrderDetails = orderDto.OrderDetails.Select(x => new OrderDetail()
                 {
                     ProductId = x.ProductId,
@@ -35,26 +36,25 @@ public class OrderService(MainContext context, UserManager<User> userManager)
     }
 
     //convert to rules
-    private void CheckRules(int? userId, OrderDto orderDto)
+    private int CheckRules(int? userId, OrderDto orderDto)
     {
-        User user = null;
-        if (userId != null)
-        {
-            user = userManager.FindByIdAsync(userId.ToString()).Result;
-        }
+        var user = userId != null ? userManager.FindByIdAsync(userId.ToString()).Result : null;
 
-        if (user != null)
-        {
-            if (user.Rank != Rank.NONE)
-            {
-                //10% discount
-            }
-        }
+        var totalDiscount = new HasRankRule().UserHasRank(user)
+                            + new CheckDayOfWeekRule().IsDayOfWeek(orderDto)
+                            + new SameTypeRule().CheckSameType(ProductsInOrder(orderDto))
+                            + new NameContainsRule().ApplyNameContainsDiscount(ProductsInOrder(orderDto))
+                            + new CheckNameRule().CheckForName(ProductsInOrder(orderDto));
 
-        if(orderDto.OrderFor.DayOfWeek == DayOfWeek.Monday || orderDto.OrderFor.DayOfWeek == DayOfWeek.Tuesday)
+        return totalDiscount <= 60 ? totalDiscount : 60;
+    }
+
+    private List<ProductDto> ProductsInOrder(OrderDto orderDto)
+    {
+        return orderDto.OrderDetails.Select(x => new ProductDto()
         {
-            //15%
-        }
+            Id = x.ProductId
+        }).ToList();
     }
 
     public List<OrderDto> GetAllOrders()
