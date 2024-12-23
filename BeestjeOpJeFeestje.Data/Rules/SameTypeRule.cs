@@ -5,8 +5,8 @@ namespace BeestjeOpJeFeestje.Data.Rules;
 public class SameTypeRule
 {
     private readonly int sameAmount = 3;
-    public int CheckSameType(List<ProductDto> products)
+    public int CheckSameType(OrderDto orderDto)
     {
-        return products.GroupBy(p => p.Type).Any(g => g.Count() >= sameAmount) ? 10 : 0;
+        return orderDto.OrderDetails.GroupBy(p => p.Product.Type).Any(g => g.Count() >= sameAmount) ? 10 : 0;
     }
 }

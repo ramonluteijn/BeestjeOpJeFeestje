@@ -47,11 +47,17 @@ public class MainContext : IdentityDbContext<User, IdentityRole<int>, int>
         builder.Entity<OrderDetail>()
             .HasKey(od => new { od.OrderId, od.ProductId });
 
+        // builder.Entity<OrderDetail>()
+        //     .HasOne<Product>()
+        //     .WithMany()
+        //     .HasForeignKey(od => od.ProductId)
+        //     .OnDelete(DeleteBehavior.Cascade);
+
         builder.Entity<OrderDetail>()
-            .HasOne<Product>()
+            .HasOne(od => od.Product)
             .WithMany()
             .HasForeignKey(od => od.ProductId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 
     private static void SeedData(ModelBuilder builder)

@@ -13,7 +13,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
     {
         if (orderDto != null)
         {
-            var discount = CheckRules(userId, orderDto);
+            var discount = DiscountCheckRules(userId, orderDto);
             var order = new Order()
             {
                 Name = orderDto.Name,
@@ -27,6 +27,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 OrderDetails = orderDto.OrderDetails.Select(x => new OrderDetail()
                 {
                     ProductId = x.ProductId,
+                    Product = context.Products.FirstOrDefault(p => p.Id == x.ProductId)
                 }).ToList()
             };
 
@@ -35,26 +36,32 @@ public class OrderService(MainContext context, UserManager<User> userManager)
         }
     }
 
+    private (bool, string) CheckOrder(OrderDto orderDto, int? userId = null)
+    {
+        var user = userId != null ? userManager.FindByIdAsync(userId.ToString()).Result : null;
+
+        var checkOrderProducts = new CheckOrderProductsRule().CheckProducts(orderDto, user);
+        if (!checkOrderProducts)
+        {
+            return (false, "You have too many products in your order.");
+        }
+
+        var(check, result) = new CheckSeasonRule().CheckAnimalAvailability(orderDto);
+        return !check ? (false, result) : (true, string.Empty);
+    }
+
     //convert to rules
-    private int CheckRules(int? userId, OrderDto orderDto)
+    private int DiscountCheckRules(int? userId, OrderDto orderDto)
     {
         var user = userId != null ? userManager.FindByIdAsync(userId.ToString()).Result : null;
 
         var totalDiscount = new HasRankRule().UserHasRank(user)
                             + new CheckDayOfWeekRule().IsDayOfWeek(orderDto)
-                            + new SameTypeRule().CheckSameType(ProductsInOrder(orderDto))
-                            + new NameContainsRule().ApplyNameContainsDiscount(ProductsInOrder(orderDto))
-                            + new CheckNameRule().CheckForName(ProductsInOrder(orderDto));
+                            + new SameTypeRule().CheckSameType(orderDto)
+                            + new NameContainsRule().ApplyNameContainsDiscount(orderDto)
+                            + new CheckNameRule().CheckForName(orderDto);
 
         return totalDiscount <= 60 ? totalDiscount : 60;
-    }
-
-    private List<ProductDto> ProductsInOrder(OrderDto orderDto)
-    {
-        return orderDto.OrderDetails.Select(x => new ProductDto()
-        {
-            Id = x.ProductId
-        }).ToList();
     }
 
     public List<OrderDto> GetAllOrders()
@@ -71,7 +78,15 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 OrderFor = x.OrderFor,
                 OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
                 {
-                    ProductId = y.ProductId
+                    ProductId = y.ProductId,
+                    Product = new ProductDto()
+                    {
+                        Id = y.Product.Id,
+                        Name = y.Product.Name,
+                        Type = y.Product.Type,
+                        Price = y.Product.Price,
+                        Img = y.Product.Img
+                    }
                 }).ToList()
             })
             .ToList();
@@ -92,7 +107,15 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 OrderFor = x.OrderFor,
                 OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
                 {
-                    ProductId = y.ProductId
+                    ProductId = y.ProductId,
+                    Product = new ProductDto()
+                    {
+                        Id = y.Product.Id,
+                        Name = y.Product.Name,
+                        Type = y.Product.Type,
+                        Price = y.Product.Price,
+                        Img = y.Product.Img
+                    }
                 }).ToList()
             })
             .FirstOrDefault();

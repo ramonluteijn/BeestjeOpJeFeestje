@@ -225,8 +225,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         name: "FK_OrderDetails_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -243,8 +242,8 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "HouseNumber", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Rank", "SecurityStamp", "TwoFactorEnabled", "UserName", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, 0, "3ff9de5e-44fd-4161-bfdc-0ab719129b4e", "admin@example.com", true, "123", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "7836441a-f4c2-4334-a5c9-0f9dbcaf208b", false, "admin", "1234AB" },
-                    { 2, 0, "1e2289a8-6fe2-4a95-821a-399c9a8536f2", "customer@example.com", true, "123", false, null, "CUSTOMER@EXAMPLE.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "c48ba2e0-6d31-4886-bb4d-80bef3afb35f", false, "customer", "1234AB" }
+                    { 1, 0, "aa198a12-9891-464a-9054-40ed7b95d103", "admin@example.com", true, "123", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "7e6a6361-7090-4b6d-8196-36174c4148f6", false, "admin", "1234AB" },
+                    { 2, 0, "19ca497f-afe4-433a-ba6b-c7e73136e029", "customer@example.com", true, "123", false, null, "CUSTOMER@EXAMPLE.COM", "CUSTOMER", "AQAAAAIAAYagAAAAEPS3HVgGwreh2VogbGYNNcFZeVOJgO8bLRs+04f5Iucpgy+P86IRXTI4/1xQcPFG2w==", "0612345678", false, "NONE", "19537fb8-cdda-42a1-8911-0b17704e7e8e", false, "customer", "1234AB" }
                 });
 
             migrationBuilder.InsertData(

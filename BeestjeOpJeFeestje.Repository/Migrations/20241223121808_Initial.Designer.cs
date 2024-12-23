@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestje.Repository.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20241222205732_Initial")]
+    [Migration("20241223121808_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -325,7 +325,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3ff9de5e-44fd-4161-bfdc-0ab719129b4e",
+                            ConcurrencyStamp = "aa198a12-9891-464a-9054-40ed7b95d103",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -336,7 +336,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "7836441a-f4c2-4334-a5c9-0f9dbcaf208b",
+                            SecurityStamp = "7e6a6361-7090-4b6d-8196-36174c4148f6",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             ZipCode = "1234AB"
@@ -345,7 +345,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e2289a8-6fe2-4a95-821a-399c9a8536f2",
+                            ConcurrencyStamp = "19ca497f-afe4-433a-ba6b-c7e73136e029",
                             Email = "customer@example.com",
                             EmailConfirmed = true,
                             HouseNumber = "123",
@@ -356,7 +356,7 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                             PhoneNumber = "0612345678",
                             PhoneNumberConfirmed = false,
                             Rank = "NONE",
-                            SecurityStamp = "c48ba2e0-6d31-4886-bb4d-80bef3afb35f",
+                            SecurityStamp = "19537fb8-cdda-42a1-8911-0b17704e7e8e",
                             TwoFactorEnabled = false,
                             UserName = "customer",
                             ZipCode = "1234AB"
@@ -538,11 +538,13 @@ namespace BeestjeOpJeFeestje.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BeestjeOpJeFeestje.Repository.Models.Product", null)
+                    b.HasOne("BeestjeOpJeFeestje.Repository.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -4,11 +4,12 @@ namespace BeestjeOpJeFeestje.Data.Rules;
 
 public class NameContainsRule
 {
-    public int ApplyNameContainsDiscount(List<ProductDto> products)
+    public int ApplyNameContainsDiscount(OrderDto orderDto)
     {
+
         var uniqueLetters = new HashSet<char>();
 
-        foreach (var product in products)
+        foreach (var product in orderDto.OrderDetails.Select(p => p.Product))
         {
             foreach (var letter in product.Name.ToLower())
             {
