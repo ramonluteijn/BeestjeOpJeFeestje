@@ -147,6 +147,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 HouseNumber = x.HouseNumber,
                 PhoneNumber = x.PhoneNumber,
                 OrderFor = x.OrderFor,
+                TotalPrice = x.TotalPrice,
                 OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
                 {
                     ProductId = y.ProductId
