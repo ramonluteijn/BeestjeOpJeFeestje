@@ -155,4 +155,34 @@ public class OrderService(MainContext context, UserManager<User> userManager)
             })
             .ToList();
     }
+
+    public List<OrderDto> GetAllOrdersByProductId(int id)
+    {
+        return context.Orders
+            .Where(x => x.OrderDetails.Any(y => y.ProductId == id))
+            .Select(x => new OrderDto()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Email = x.Email,
+                ZipCode = x.ZipCode,
+                HouseNumber = x.HouseNumber,
+                PhoneNumber = x.PhoneNumber,
+                OrderFor = x.OrderFor,
+                TotalPrice = x.TotalPrice,
+                OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
+                {
+                    ProductId = y.ProductId,
+                    Product = new ProductDto()
+                    {
+                        Id = y.Product.Id,
+                        Name = y.Product.Name,
+                        Type = y.Product.Type,
+                        Price = y.Product.Price,
+                        Img = y.Product.Img
+                    }
+                }).ToList()
+            })
+            .ToList();
+    }
 }

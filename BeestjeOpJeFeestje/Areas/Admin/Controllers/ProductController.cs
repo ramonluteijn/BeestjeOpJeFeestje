@@ -8,7 +8,7 @@ namespace BeestjeOpJeFeestje.Areas.Admin.Controllers;
 [Authorize]
 [Area("Admin")]
 [Route("/admin/product")]
-public class ProductController(ProductService productService) : Controller
+public class ProductController(ProductService productService, OrderService orderService) : Controller
 {
  [HttpGet]
     public IActionResult Index()
@@ -51,13 +51,15 @@ public class ProductController(ProductService productService) : Controller
     public IActionResult Details(int id)
     {
         var product = productService.GetProductById(id);
+        var productOrders = orderService.GetAllOrdersByProductId(id);
         var productViewModel = new SingleProductViewModel()
         {
             Id = product.Id,
             Name = product.Name,
             Price = product.Price,
             Type = product.Type,
-            Img = product.Img
+            Img = product.Img,
+            Orders = productOrders
         };
         return View(productViewModel);
     }

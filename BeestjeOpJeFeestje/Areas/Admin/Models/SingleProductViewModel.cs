@@ -23,6 +23,8 @@ public class SingleProductViewModel
     public bool Check { get; set; }
     public string? Result { get; set; }
 
+    public List<OrderDto>? Orders { get; set; } = new();
+
 
     public ProductDto ToDto()
     {
