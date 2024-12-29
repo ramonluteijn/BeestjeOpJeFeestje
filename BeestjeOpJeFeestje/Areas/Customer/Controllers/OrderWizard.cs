@@ -78,10 +78,12 @@ public class OrderWizard(ProductService productService, BasketService basketServ
    [HttpGet("confirmation")]
     public IActionResult Confirmation(OrderViewModel model)
     {
-        model.ProductsOverViewModel = new ProductsOverViewModel
+        model.ProductsOverViewModel = new ProductsOverViewModel     
         {
             Products = basketService.GetBasketProducts(),
         };
+        model.TotalPrice = model.ProductsOverViewModel.Products.Sum(p => p.Price);
+
         return View(model);
     }
 
@@ -92,6 +94,7 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         {
             Products = basketService.GetBasketProducts(),
         };
+        model.TotalPrice = model.ProductsOverViewModel.Products.Sum(p => p.Price);
 
         orderService.CreateOrder(model.ToDto());
         basketService.ClearBasket();

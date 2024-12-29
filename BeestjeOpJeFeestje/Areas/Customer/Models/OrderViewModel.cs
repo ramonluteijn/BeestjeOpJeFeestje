@@ -29,7 +29,8 @@ public class OrderViewModel
                 .Where(p => p.IsInBasket)
                 .Select(p => new OrderDetailsDto()
                 {
-                    ProductId = p.Id
+                    ProductId = p.Id,
+                    Product = p
                 })
                 .ToList()
         };

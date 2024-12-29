@@ -13,7 +13,7 @@ public class NameContainsRule
         {
             foreach (var letter in product.Name.ToLower())
             {
-                if (char.IsLetter(letter))
+                if (!uniqueLetters.Contains(letter))
                 {
                     uniqueLetters.Add(letter);
                 }
