@@ -19,6 +19,7 @@
                         {
                             <form method="post" asp-action="RemoveFromBasket" asp-controller="OrderWizard" asp-area="Customer">
                                 <input type="hidden" name="productId" value="@Model.Id"/>
+                                <input type="hidden" name="date" value="@ViewData["date"]"/>
                                 <button class="btn btn-danger w-100">Remove from basket</button>
                             </form>
                         }
@@ -26,6 +27,7 @@
                         {
                             <form method="post" asp-action="AddToBasket" asp-controller="OrderWizard" asp-area="Customer">
                                 <input type="hidden" name="productId" value="@Model.Id"/>
+                                <input type="hidden" name="date" value="@ViewData["date"]"/>
                                 <button class="btn btn-primary w-100">Add to basket</button>
                             </form>
                         }

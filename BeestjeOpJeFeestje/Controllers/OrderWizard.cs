@@ -18,18 +18,12 @@ public class OrderWizard(ProductService productService, BasketService basketServ
     [HttpGet("products")]
     public IActionResult Shop(DateOnly date, List<Type>? selectedTypes)
     {
-        var products = productService.GetProducts();
+        var products = productService.GetProducts(date, selectedTypes);
         var basketProducts = basketService.GetBasketProducts();
 
         foreach (var product in products)
         {
             product.IsInBasket = basketProducts.Any(bp => bp.Id == product.Id);
-        }
-
-        // todo refactor to get products based on date and type
-        if (selectedTypes != null && selectedTypes.Any())
-        {
-            products = products.Where(p => selectedTypes.Contains(p.Type)).ToList();
         }
 
         var model = new OrderViewModel()
@@ -104,21 +98,21 @@ public class OrderWizard(ProductService productService, BasketService basketServ
 
     [HttpPost]
     [Route("AddToBasket")]
-    public IActionResult AddToBasket(int productId)
+    public IActionResult AddToBasket(int productId, DateOnly date)
     {
         var product = productService.GetProductById(productId);
         if (product != null)
         {
             basketService.AddToBasket(product);
         }
-        return RedirectToAction("Shop", new { date = DateTime.Now.Date, selectedTypes = new List<Type>() });
+        return RedirectToAction("Shop", new { date, selectedTypes = new List<Type>() });
     }
 
     [HttpPost]
     [Route("RemoveFromBasket")]
-    public IActionResult RemoveFromBasket(int productId)
+    public IActionResult RemoveFromBasket(int productId, DateOnly date)
     {
          basketService.RemoveFromBasket(productId);
-         return RedirectToAction("Shop", new { date = DateTime.Now.Date, selectedTypes = new List<Type>() });
+         return RedirectToAction("Shop", new { date, selectedTypes = new List<Type>() });
     }
 }

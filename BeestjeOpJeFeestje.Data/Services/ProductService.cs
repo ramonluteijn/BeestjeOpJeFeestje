@@ -2,6 +2,8 @@
 using BeestjeOpJeFeestje.Repository;
 using BeestjeOpJeFeestje.Repository.Factories;
 using BeestjeOpJeFeestje.Repository.Models;
+using Microsoft.EntityFrameworkCore;
+using Type = BeestjeOpJeFeestje.Repository.Enums.Type;
 
 namespace BeestjeOpJeFeestje.Data.Services;
 
@@ -20,17 +22,36 @@ public class ProductService(MainContext context, ImageFactory imageFactory)
         };
     }
 
-    public List<ProductDto> GetProducts()
+    public List<ProductDto> GetProducts(DateOnly? date = null, List<Type>? selectedTypes = null)
     {
-        var products = context.Products.ToList();
-        return products.Select(product => new ProductDto
+        var products = context.Products.
+            Select(product => new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Type = product.Type,
+                Price = product.Price,
+                Img = product.Img
+            }).ToList();
+
+        if (date != null)
         {
-            Id = product.Id,
-            Name = product.Name,
-            Type = product.Type,
-            Price = product.Price,
-            Img = product.Img
-        }).ToList();
+            var ordersOnDate = context.Orders
+                .Where(order => order.OrderFor == date)
+                .Include(order => order.OrderDetails)
+                .SelectMany(order => order.OrderDetails)
+                .Select(orderDetail => orderDetail.ProductId)
+                .ToList();
+
+            products = products.Where(product => !ordersOnDate.Contains(product.Id)).ToList();
+        }
+
+        if (selectedTypes != null && selectedTypes.Any())
+        {
+            products = products.Where(p => selectedTypes.Contains(p.Type)).ToList();
+        }
+
+        return products;
     }
 
     public (bool, string) CreateProduct(ProductDto productDto)
