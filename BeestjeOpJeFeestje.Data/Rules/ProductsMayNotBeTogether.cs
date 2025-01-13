@@ -5,6 +5,7 @@ namespace BeestjeOpJeFeestje.Data.Rules;
 
 public class ProductsMayNotBeTogether
 {
+    //Check if the animal is available in the current season
     public (bool, string) CheckProductsTogether(OrderDto orderDto)
     {
         var dangerousAnimals = new[] { "leeuw", "ijsbeer" }; //  names of animals not types!

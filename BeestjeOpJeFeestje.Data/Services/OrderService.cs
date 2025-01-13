@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BeestjeOpJeFeestje.Data.Services;
 
-public class OrderService(MainContext context, UserManager<User> userManager)
+public class OrderService(MainContext context, UserManager<User> userManager, ProductService productService)
 {
     public (bool, string) CreateOrder(OrderDto orderDto, int? userId = null)
     {
@@ -25,7 +25,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 PhoneNumber = orderDto.PhoneNumber,
                 OrderFor = orderDto.OrderFor,
                 UserId = userId,
-                TotalPrice = orderDto.TotalPrice * (100 - DiscountCheckRules(userId, orderDto)) / 100,
+                TotalPrice = orderDto.TotalPrice * (100 - DiscountCheckRules(userId, orderDto)) / 100 + new PayForMoreProducts().PayForExtraProducts(orderDto, productService.GetProducts()),
                 OrderDetails = orderDto.OrderDetails.Select(x => new OrderDetail()
                 {
                     ProductId = x.ProductId,
@@ -35,7 +35,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
 
             context.Orders.Add(order);
             context.SaveChanges();
-            return  CheckOrder(orderDto, userId);
+            return CheckOrder(orderDto, userId);
         }
         return (false, "Order is empty.");
     }
@@ -51,7 +51,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
         if (!checkTogether) { return (false, resultTogether); }
 
         var(check, result) = new CheckSeasonRule().CheckAnimalAvailability(orderDto);
-        return !check ? (false, result) : (true, "Order created successfully.");
+        return !check ? (false, result) : (true, "Order created successfully. you may have payed for more products :)");
     }
 
     public int DiscountCheckRules(int? userId, OrderDto orderDto)
