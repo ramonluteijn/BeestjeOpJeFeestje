@@ -1,0 +1,30 @@
+﻿@{
+    var steps = new[] { "Index", "Shop", "Contact", "Confirmation" };
+    var currentStep = ViewData["step"]?.ToString();
+    var currentIndex = Array.IndexOf(steps, currentStep);
+}
+
+<div class="row mx-auto mb-20 d-flex align-items-center" aria-label="Tabs">
+    <div class="stepper-wrapper">
+        @for (int i = 0; i < steps.Length; i++)
+        {
+            var stepClass = i < currentIndex ? "completed" : (i == currentIndex ? "active" : "");
+            if (i == 0)
+            {
+
+                    <a class="stepper-item @stepClass" asp-action="@steps[i]" asp-controller="OrderWizard">
+                        <div class="step-counter">@((i + 1).ToString())</div>
+                        <div class="step-name">@steps[i]</div>
+                    </a>
+
+            }
+            else
+            {
+                <div class="stepper-item @stepClass">
+                    <div class="step-counter">@((i + 1).ToString())</div>
+                    <div class="step-name">@steps[i]</div>
+                </div>
+            }
+        }
+    </div>
+</div>

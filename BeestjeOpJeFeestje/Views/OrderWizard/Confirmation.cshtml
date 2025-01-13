@@ -1,19 +1,12 @@
 @model BeestjeOpJeFeestje.Models.Orders.OrderViewModel
 @{
     ViewData["Title"] = "Products";
+    ViewData["date"] = Model.OrderFor;
+    ViewData["step"] = "Confirmation";
 }
 
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <ul class="step-bar">
-                <li class="step">Beestjes</li>
-                <li class="step">Accessoires</li>
-                <li class="step">Gegevens</li>
-                <li class="step">Bevestig</li>
-            </ul>
-        </div>
-    </div>
+    <partial name="~/Views/Shared/navigation.cshtml"/>
 
     <div class="row mx-auto">
         @if (!string.IsNullOrEmpty(Model.Result))

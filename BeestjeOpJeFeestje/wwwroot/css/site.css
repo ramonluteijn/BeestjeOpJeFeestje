@@ -25,3 +25,85 @@ body {
   width: 100%;
   max-width: 33%;
 }
+
+   .stepper-wrapper {
+     margin-top: auto;
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 20px;
+   }
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 4px solid #efefef;
+  width: 100%;
+  top: 30px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 4px solid #efefef;
+  width: 100%;
+  top: 30px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ffffff;
+  margin-bottom: 6px;
+  border: 1px solid #efefef;
+  color: #efefef;
+}
+
+.stepper-item.active .step-counter {
+  background-color: blue;
+  border: 1px solid blue;
+  color: #ffffff;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: green;
+  border: 1px solid green;
+  color: #ffffff;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 4px solid green;
+  width: 100%;
+  top: 30px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
