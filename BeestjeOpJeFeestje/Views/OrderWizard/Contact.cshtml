@@ -19,11 +19,26 @@
 
     <div class="row mx-auto">
         <div class="col-9">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-action="ContactPost" method="post" class="mx-auto" style="max-width: 30rem">
+                    <input type="hidden" asp-for="ProductsOverViewModel.BasketCount"/>
+                    <input type="hidden" asp-for="ProductsOverViewModel.Products"/>
+                    <input type="hidden" asp-for="OrderFor"/>
+                    <input type="hidden" name="skip" value="true"/>
+                    <div class="pt-2">
+                        <button class="btn btn-primary ms-1" type="submit">Skip step</button>
+                    </div>
+                </form>
+                <p>Or add different details</p>
+            }
+
             <h3>Enter Your Details</h3>
             <form asp-action="ContactPost" method="post" class="mx-auto" style="max-width: 30rem">
                 <input type="hidden" asp-for="ProductsOverViewModel.BasketCount"/>
                 <input type="hidden" asp-for="ProductsOverViewModel.Products"/>
                 <input type="hidden" asp-for="OrderFor"/>
+                <input type="hidden" name="skip" value="false"/>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="mb-3">
                     <div class="my-2">
@@ -52,7 +67,6 @@
                         <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
-
                 <div class="d-flex justify-content-between pt-2">
                     <button class="btn btn-primary ms-1" type="submit">Next step</button>
                 </div>

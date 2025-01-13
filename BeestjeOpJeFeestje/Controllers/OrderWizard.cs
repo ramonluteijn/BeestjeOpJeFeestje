@@ -8,7 +8,7 @@ using Type = BeestjeOpJeFeestje.Repository.Enums.Type;
 namespace BeestjeOpJeFeestje.Controllers;
 
 [Route("/shop")]
-public class OrderWizard(ProductService productService, BasketService basketService, OrderService orderService, ILogger<OrderWizard> logger) : Controller
+public class OrderWizard(ProductService productService, BasketService basketService, OrderService orderService, AccountService accountService) : Controller
 {
     [HttpGet]
     public IActionResult Index()
@@ -58,9 +58,27 @@ public class OrderWizard(ProductService productService, BasketService basketServ
 
     //todo
     [HttpPost("contact")]
-    public IActionResult ContactPost(OrderViewModel model)
+    public IActionResult ContactPost(OrderViewModel model, bool skip)
     {
-//todo products not populating correctly
+        if (skip)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+            if (userId != null)
+            {
+                var parsedId =  int.Parse(userId);
+                var account = accountService.GetUserById(parsedId);
+                model.Name = account.Name;
+                model.Email = account.Email;
+                model.ZipCode = account.ZipCode;
+                model.HouseNumber = account.HouseNumber;
+                model.PhoneNumber = account.PhoneNumber;
+
+                ModelState.Clear();
+                TryValidateModel(model);
+            }
+        }
+
+        //todo products not populating correctly
         model.ProductsOverViewModel = new ProductsOverViewModel
         {
             Products = basketService.GetBasketProducts(),

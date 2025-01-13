@@ -31,7 +31,7 @@ public class AccountController(AccountService accountService) : Controller
 
         if (User.IsInRole("Customer"))
         {
-            return RedirectToAction("Index", "", new {area = "Customer"}); // TODO: Add controller name
+            return RedirectToAction("Index", "Order");
         }
         if (User.IsInRole("Admin"))
         {
@@ -42,11 +42,10 @@ public class AccountController(AccountService accountService) : Controller
     }
 
     [HttpPost]
-    [Route("/logout")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
         await accountService.Logout();
-        return RedirectToAction("Login", "Account");
+        return RedirectToAction("Index", "Home");
     }
 }

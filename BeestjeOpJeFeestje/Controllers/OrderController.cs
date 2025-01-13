@@ -55,7 +55,6 @@ public class OrderController(OrderService orderService): Controller
     }
 
     [HttpGet("delete/{id:int}")]
-    [Authorize(Roles = "Admin")]
     public IActionResult Delete(int id)
     {
         orderService.DeleteOrder(id);
