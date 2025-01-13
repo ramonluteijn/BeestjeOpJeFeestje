@@ -5,6 +5,8 @@ namespace BeestjeOpJeFeestje.Data.Rules;
 
 public class CheckSeasonRule
 {
+
+    //Check if the animal is available in the current season
     public (bool, string) CheckAnimalAvailability(OrderDto orderDto)
     {
         var currentDate = DateTime.Now;

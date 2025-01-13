@@ -1,7 +1,6 @@
 ﻿using BeestjeOpJeFeestje.Data.Dtos;
 using BeestjeOpJeFeestje.Data.Rules;
 using BeestjeOpJeFeestje.Repository;
-using BeestjeOpJeFeestje.Repository.Enums;
 using BeestjeOpJeFeestje.Repository.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,10 +8,14 @@ namespace BeestjeOpJeFeestje.Data.Services;
 
 public class OrderService(MainContext context, UserManager<User> userManager)
 {
-    public void CreateOrder(OrderDto orderDto, int? userId = null)
+    public (bool, string) CreateOrder(OrderDto orderDto, int? userId = null)
     {
         if (orderDto != null)
         {
+            if(!CheckOrder(orderDto, userId).Item1)
+            {
+                return CheckOrder(orderDto, userId);
+            }
             var discount = DiscountCheckRules(userId, orderDto);
             var order = new Order()
             {
@@ -33,21 +36,23 @@ public class OrderService(MainContext context, UserManager<User> userManager)
 
             context.Orders.Add(order);
             context.SaveChanges();
+            return  CheckOrder(orderDto, userId);
         }
+        return (false, "Order is empty.");
     }
 
     private (bool, string) CheckOrder(OrderDto orderDto, int? userId = null)
     {
-        var user = userId != null ? userManager.FindByIdAsync(userId.ToString()).Result : null;
+        var user = userId != null ? userManager.FindByIdAsync(userId.Value.ToString()).Result : null;
 
-        var checkOrderProducts = new CheckOrderProductsRule().CheckProducts(orderDto, user);
-        if (!checkOrderProducts)
-        {
-            return (false, "You have too many products in your order.");
-        }
+        var (checkProducts, resulProducts) = new CheckOrderProductsRule().CheckProducts(orderDto, user);
+        if (!checkProducts) { return (false, resulProducts); }
+
+        var (checkTogether, resultTogether) = new ProductsMayNotBeTogether().CheckProductsTogether(orderDto);
+        if (!checkTogether) { return (false, resultTogether); }
 
         var(check, result) = new CheckSeasonRule().CheckAnimalAvailability(orderDto);
-        return !check ? (false, result) : (true, string.Empty);
+        return !check ? (false, result) : (true, "Order created successfully.");
     }
 
     //convert to rules

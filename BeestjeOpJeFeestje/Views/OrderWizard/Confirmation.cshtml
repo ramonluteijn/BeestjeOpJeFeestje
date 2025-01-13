@@ -16,6 +16,12 @@
     </div>
 
     <div class="row mx-auto">
+        @if (!string.IsNullOrEmpty(Model.Result))
+        {
+            <div class="alert @(Model.Check ? "alert-success" : "alert-danger")" role="alert">
+                @Model.Result
+            </div>
+        }
         <form asp-action="ConfirmationPost" method="post" class="mx-auto" style="max-width: 30rem">
             <input type="hidden" asp-for="Name"/>
             <input type="hidden" asp-for="Email"/>
@@ -23,7 +29,7 @@
             <input type="hidden" asp-for="HouseNumber"/>
             <input type="hidden" asp-for="PhoneNumber"/>
             <input type="hidden" asp-for="TotalPrice"/>
-            <input type="hidden" asp-for="OrderFor" value="@Model.OrderFor.ToString("yyyy-MM-dd")" />
+            <input type="hidden" asp-for="OrderFor" value="@Model.OrderFor.ToString("yyyy-MM-dd")"/>
             <h2>Confirmation</h2>
             <p>Order for @Model.OrderFor</p>
             <h4>Contact information</h4>
@@ -54,7 +60,6 @@
                 </tr>
                 </tbody>
             </table>
-
             <input type="submit" class="btn btn-primary" value="Confirm"/>
         </form>
     </div>

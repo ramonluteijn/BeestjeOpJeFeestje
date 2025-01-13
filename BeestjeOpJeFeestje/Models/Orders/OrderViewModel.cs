@@ -15,6 +15,9 @@ public class OrderViewModel
     public ProductsOverViewModel ProductsOverViewModel { get; set; } = new();
     public int TotalPrice { get; set; }
 
+    public string? Result { get; set; }
+    public bool Check { get; set; }
+
     public OrderDto ToDto()
     {
         return new OrderDto()

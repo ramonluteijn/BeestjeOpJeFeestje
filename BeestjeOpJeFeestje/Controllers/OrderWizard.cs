@@ -1,4 +1,5 @@
-﻿using BeestjeOpJeFeestje.Data.Services;
+﻿using System.Security.Claims;
+using BeestjeOpJeFeestje.Data.Services;
 using BeestjeOpJeFeestje.Models.Orders;
 using BeestjeOpJeFeestje.Models.Products;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,6 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         return ModelState.IsValid ? RedirectToAction("Confirmation", model) : RedirectToAction("Contact");
     }
 
-
    [HttpGet("confirmation")]
     public IActionResult Confirmation(OrderViewModel model)
     {
@@ -90,9 +90,17 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         };
         model.TotalPrice = model.ProductsOverViewModel.Products.Sum(p => p.Price);
 
-        orderService.CreateOrder(model.ToDto());
-        basketService.ClearBasket();
-        return RedirectToAction("Index");
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+        var parsedId = userId != null ? int.Parse(userId) : (int?)null;
+
+        var (check, result) = orderService.CreateOrder(model.ToDto(), parsedId);
+        if (check)
+        {
+            basketService.ClearBasket();
+        }
+        model.Check = check;
+        model.Result = result;
+        return RedirectToAction("Confirmation", model); //redirect to different page with order confirmation todo
     }
 
     [HttpPost]

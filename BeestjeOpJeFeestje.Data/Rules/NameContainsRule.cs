@@ -4,6 +4,7 @@ namespace BeestjeOpJeFeestje.Data.Rules;
 
 public class NameContainsRule
 {
+    //2% discount for each unique letter in the product name
     public int ApplyNameContainsDiscount(OrderDto orderDto)
     {
 

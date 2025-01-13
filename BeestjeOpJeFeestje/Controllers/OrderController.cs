@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using BeestjeOpJeFeestje.Data.Dtos;
 using BeestjeOpJeFeestje.Data.Services;
 using BeestjeOpJeFeestje.Models.Orders;
 using BeestjeOpJeFeestje.Models.Products;
@@ -14,9 +15,16 @@ public class OrderController(OrderService orderService): Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var orders = orderService.GetAllOrderByUserId(int.Parse(userId));
+        IEnumerable<OrderDto> orders;
+        if(User.IsInRole("Admin"))
+        {
+            orders = orderService.GetAllOrders();
+        }
+        else
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            orders = orderService.GetAllOrderByUserId(int.Parse(userId));
+        }
         var ordersOverviewModel = new OrdersOverviewViewModel
         {
             Orders = orders
