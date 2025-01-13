@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BeestjeOpJeFeestje.Models.Products.SingleProductViewModel
+@{
+    ViewData["Title"] = "Create customer";
+}
+
+<div class="page-header">
+    <div class="container h-100 d-flex align-items-center justify-content-between">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item mb-0">
+                    <a asp-action="Index">Home</a>
+                </li>
+                <li class="breadcrumb-item mb-0">
+                    <a asp-action="Index">Products</a>
+                </li>
+                <li class="breadcrumb-item mb-0 active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="border-top"></div>
+
+<div class="container bg-light rounded-3 p-3">
+    <div class="bg-white border rounded-3 p-4 pt-5">
+
+        <h1 class="fs-3 fw-bold text-center">Create product</h1>
+        <p class="pb-4 text-center">Please fill in the details below</p>
+
+        <div class="mx-auto" style="max-width: 30rem">
+            <div class="mb-3">
+                <div class="my-2">
+                    <p>Name: @Model.Name</p>
+                </div>
+                <div class="my-2">
+                    <p>Price: @Model.Price</p>
+                </div>
+                <div class="my-2">
+                    <p>Type: @Model.Type</p>
+                </div>
+                <img src="~/Images/Icons/@Model.Type/@Model.Img" class="img-fluid" alt="@Model.Name">
+            </div>
+
+            @if (Model.Orders.Any())
+            {
+                <h2>Orders</h2>
+                <table class="table table-bordered bg-white">
+                    <thead>
+                    <tr>
+                        <th scope="col">Order for</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Total price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach(var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.OrderFor</td>
+                            <td>@order.Email</td>
+                            <td>@order.TotalPrice</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+
+            <div class="d-flex justify-content-between pt-2">
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary">Delete</a>
+                <a asp-action="Edit" class="btn btn-secondary">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>

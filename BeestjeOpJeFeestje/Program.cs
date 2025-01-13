@@ -13,7 +13,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MainContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add services here
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
     {
         // Password settings
@@ -27,10 +26,9 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
     .AddEntityFrameworkStores<MainContext>()
     .AddDefaultTokenProviders();
 
-
-builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<AccountService>();
 builder.Services.AddSingleton<BasketService>();
 builder.Services.AddScoped<ImageFactory>();
 
@@ -41,23 +39,18 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    // app.UseHsts();
+    app.UseHsts();
 }
 
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{area:exists}/{controller=User}/{action=Login}");
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area:exists}/{controller=Login}/{action=Index}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

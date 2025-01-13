@@ -1,0 +1,55 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Type = BeestjeOpJeFeestje.Repository.Enums.Type
+@model BeestjeOpJeFeestje.Models.Orders.OrderViewModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ul class="step-bar">
+                <li class="step">Beestjes</li>
+                <li class="step">Accessoires</li>
+                <li class="step">Gegevens</li>
+                <li class="step">Bevestig</li>
+            </ul>
+        </div>
+    </div>
+
+    <span>Items in basket: @Model.ProductsOverViewModel.BasketCount</span>
+
+    <div class="row mx-auto">
+        <div class="col-3 p-0 pe-1 my-3">
+            <form id="filterForm" method="get" asp-action="Shop">
+                @foreach (var type in Enum.GetValues(typeof(Type)).Cast<Type>())
+                {
+                    <div class="form-check">
+                        <input name="selectedTypes" class="form-check-input" type="checkbox" value="@type" id="type_@type" @(Model.ProductsOverViewModel.SelectedTypes.Contains(type) ? "checked" : "") onchange="submitForm()"/>
+                        <label class="form-check-label" for="type_@type">@type</label>
+                    </div>
+                }
+            </form>
+        </div>
+        <div class="col-9 mt-3 mb-3 p-0 gallery">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var product in Model.ProductsOverViewModel.Products)
+                    {
+                        <partial name="~/Views/Shared/shop-item.cshtml" model="product"/>
+                    }
+                </div>
+            </div>
+        </div>
+        <form method="post" asp-action="Contact">
+            <input type="submit" class="btn btn-primary" value="Next step"/>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        document.getElementById('filterForm').submit();
+    }
+</script>
