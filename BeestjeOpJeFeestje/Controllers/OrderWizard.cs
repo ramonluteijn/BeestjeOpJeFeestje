@@ -96,6 +96,10 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         };
         model.TotalPrice = model.ProductsOverViewModel.Products.Sum(p => p.Price);
 
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
+        var parsedId = userId != null ? int.Parse(userId) : (int?)null;
+        model.DiscountAmount = model.TotalPrice * (100 - orderService.DiscountCheckRules(parsedId, model.ToDto())) / 100;
+
         return View(model);
     }
 

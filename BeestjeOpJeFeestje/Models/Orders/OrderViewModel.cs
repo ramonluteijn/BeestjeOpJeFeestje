@@ -14,6 +14,7 @@ public class OrderViewModel
     public DateOnly OrderFor { get; set; }
     public ProductsOverViewModel ProductsOverViewModel { get; set; } = new();
     public int TotalPrice { get; set; }
+    public int DiscountAmount { get; set; }
 
     public string? Result { get; set; }
     public bool Check { get; set; }

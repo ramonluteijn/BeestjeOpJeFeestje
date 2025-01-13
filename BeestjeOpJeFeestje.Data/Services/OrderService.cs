@@ -16,7 +16,6 @@ public class OrderService(MainContext context, UserManager<User> userManager)
             {
                 return CheckOrder(orderDto, userId);
             }
-            var discount = DiscountCheckRules(userId, orderDto);
             var order = new Order()
             {
                 Name = orderDto.Name,
@@ -26,7 +25,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
                 PhoneNumber = orderDto.PhoneNumber,
                 OrderFor = orderDto.OrderFor,
                 UserId = userId,
-                TotalPrice = orderDto.TotalPrice * (100 - discount) / 100,
+                TotalPrice = orderDto.TotalPrice * (100 - DiscountCheckRules(userId, orderDto)) / 100,
                 OrderDetails = orderDto.OrderDetails.Select(x => new OrderDetail()
                 {
                     ProductId = x.ProductId,
@@ -55,8 +54,7 @@ public class OrderService(MainContext context, UserManager<User> userManager)
         return !check ? (false, result) : (true, "Order created successfully.");
     }
 
-    //convert to rules
-    private int DiscountCheckRules(int? userId, OrderDto orderDto)
+    public int DiscountCheckRules(int? userId, OrderDto orderDto)
     {
         var user = userId != null ? userManager.FindByIdAsync(userId.ToString()).Result : null;
 
