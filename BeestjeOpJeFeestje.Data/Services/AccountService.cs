@@ -63,7 +63,7 @@ namespace BeestjeOpJeFeestje.Data.Services
 
             var newUser = new User
             {
-                UserName = user.Email,
+                UserName = user.Name,
                 Email = user.Email,
                 Rank = user.Rank,
                 HouseNumber = user.HouseNumber,
