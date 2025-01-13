@@ -23,6 +23,7 @@
             <form asp-action="ContactPost" method="post" class="mx-auto" style="max-width: 30rem">
                 <input type="hidden" asp-for="ProductsOverViewModel.BasketCount"/>
                 <input type="hidden" asp-for="ProductsOverViewModel.Products"/>
+                <input type="hidden" asp-for="OrderFor"/>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="mb-3">
                     <div class="my-2">

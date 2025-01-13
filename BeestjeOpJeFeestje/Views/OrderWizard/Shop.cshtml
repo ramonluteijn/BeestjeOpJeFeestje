@@ -21,7 +21,6 @@
 
     <div class="row mx-auto">
         <div class="col-3 p-0 pe-1 my-3">
-            @Model.OrderFor
             <form id="filterForm" method="get" asp-action="Shop">
                 <input type="hidden" name="date" value="@Model.OrderFor.ToString("yyyy-MM-dd")"/>
                 @foreach (var type in Enum.GetValues(typeof(Type)).Cast<Type>())
@@ -43,9 +42,9 @@
                 </div>
             </div>
         </div>
-        <form method="post" asp-action="Contact">
+        <form method="get" asp-action="Contact">
+            <input type="hidden" name="date" value="@Model.OrderFor.ToString("yyyy-MM-dd")"/>
             <input type="submit" class="btn btn-primary" value="Next step"/>
-
         </form>
     </div>
 </div>

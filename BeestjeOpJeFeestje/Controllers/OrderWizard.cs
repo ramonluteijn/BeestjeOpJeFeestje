@@ -55,7 +55,6 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         return View(model);
     }
 
-
     //todo
     [HttpPost("contact")]
     public IActionResult ContactPost(OrderViewModel model)
