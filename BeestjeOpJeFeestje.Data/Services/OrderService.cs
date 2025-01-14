@@ -25,7 +25,7 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
                 PhoneNumber = orderDto.PhoneNumber,
                 OrderFor = orderDto.OrderFor,
                 UserId = userId,
-                TotalPrice = orderDto.TotalPrice * (100 - DiscountCheckRules(userId, orderDto)) / 100 + new PayForMoreProducts().PayForExtraProducts(orderDto, productService.GetProducts()),
+                TotalPrice = CalculateTotalPrice(orderDto, userId),
                 OrderDetails = orderDto.OrderDetails.Select(x => new OrderDetail()
                 {
                     ProductId = x.ProductId,
@@ -44,14 +44,21 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
     {
         var user = userId != null ? userManager.FindByIdAsync(userId.Value.ToString()).Result : null;
 
-        var (checkProducts, resulProducts) = new CheckOrderProductsRule().CheckProducts(orderDto, user);
-        if (!checkProducts) { return (false, resulProducts); }
+        var (checkProducts, resultProducts) = new CheckOrderProductsRule().CheckProducts(orderDto, user);
+        if (!checkProducts) return (false, resultProducts);
 
         var (checkTogether, resultTogether) = new ProductsMayNotBeTogether().CheckProductsTogether(orderDto);
-        if (!checkTogether) { return (false, resultTogether); }
+        if (!checkTogether) return (false, resultTogether);
 
         var(check, result) = new CheckSeasonRule().CheckAnimalAvailability(orderDto);
         return !check ? (false, result) : (true, "Order created successfully. you may have payed for more products :)");
+    }
+
+    private int CalculateTotalPrice(OrderDto orderDto, int? userId)
+    {
+        var discount = DiscountCheckRules(userId, orderDto);
+        var extraCost = new PayForMoreProducts().PayForExtraProducts(orderDto, productService.GetProducts());
+        return orderDto.TotalPrice * (100 - discount) / 100 + extraCost;
     }
 
     public int DiscountCheckRules(int? userId, OrderDto orderDto)
@@ -67,7 +74,7 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
         return totalDiscount <= 60 ? totalDiscount : 60;
     }
 
-    public List<OrderDto> GetAllOrders()
+    private IQueryable<OrderDto> SelectAllOrders()
     {
         return context.Orders
             .Select(x => new OrderDto()
@@ -92,38 +99,16 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
                         Img = y.Product.Img
                     }
                 }).ToList()
-            })
-            .ToList();
+            });
+    }
+    public List<OrderDto> GetAllOrders()
+    {
+        return SelectAllOrders().ToList();
     }
 
     public OrderDto? GetOrder(int id)
     {
-        return context.Orders
-            .Where(x => x.Id == id)
-            .Select(x => new OrderDto()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Email = x.Email,
-                ZipCode = x.ZipCode,
-                HouseNumber = x.HouseNumber,
-                PhoneNumber = x.PhoneNumber,
-                OrderFor = x.OrderFor,
-                TotalPrice = x.TotalPrice,
-                OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
-                {
-                    ProductId = y.ProductId,
-                    Product = new ProductDto()
-                    {
-                        Id = y.Product.Id,
-                        Name = y.Product.Name,
-                        Type = y.Product.Type,
-                        Price = y.Product.Price,
-                        Img = y.Product.Img
-                    }
-                }).ToList()
-            })
-            .FirstOrDefault();
+        return SelectAllOrders().FirstOrDefault(x => x.Id == id);
     }
 
     public void DeleteOrder(int id)
@@ -161,31 +146,8 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
 
     public List<OrderDto> GetAllOrdersByProductId(int id)
     {
-        return context.Orders
+        return SelectAllOrders()
             .Where(x => x.OrderDetails.Any(y => y.ProductId == id))
-            .Select(x => new OrderDto()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Email = x.Email,
-                ZipCode = x.ZipCode,
-                HouseNumber = x.HouseNumber,
-                PhoneNumber = x.PhoneNumber,
-                OrderFor = x.OrderFor,
-                TotalPrice = x.TotalPrice,
-                OrderDetails = x.OrderDetails.Select(y => new OrderDetailsDto()
-                {
-                    ProductId = y.ProductId,
-                    Product = new ProductDto()
-                    {
-                        Id = y.Product.Id,
-                        Name = y.Product.Name,
-                        Type = y.Product.Type,
-                        Price = y.Product.Price,
-                        Img = y.Product.Img
-                    }
-                }).ToList()
-            })
             .ToList();
     }
 }

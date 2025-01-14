@@ -19,6 +19,7 @@ public class OrderWizard(ProductService productService, BasketService basketServ
     [HttpGet("products")]
     public IActionResult Shop(DateOnly date, List<Type>? selectedTypes)
     {
+        basketService.ClearBasket();
         var products = productService.GetProducts(date, selectedTypes);
         var basketProducts = basketService.GetBasketProducts();
 
