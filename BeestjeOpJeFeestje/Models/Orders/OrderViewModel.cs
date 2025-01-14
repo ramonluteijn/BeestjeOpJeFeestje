@@ -1,4 +1,5 @@
-﻿using BeestjeOpJeFeestje.Data.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
+using BeestjeOpJeFeestje.Data.Dtos;
 using BeestjeOpJeFeestje.Models.Products;
 
 namespace BeestjeOpJeFeestje.Models.Orders;
@@ -6,11 +7,27 @@ namespace BeestjeOpJeFeestje.Models.Orders;
 public class OrderViewModel
 {
     public int Id { get; set; }
+
+    [Required]
     public string Name { get; set; } = null!;
+
+    [Required]
     public string Email { get; set; } = null!;
+
+    [Required]
+    [DataType(DataType.PostalCode)]
     public string ZipCode { get; set; } = null!;
+
+    [Required]
+    [StringLength(5)]
     public string HouseNumber { get; set; } = null!;
+
+    [Required]
+    [DataType(DataType.PhoneNumber)]
     public string PhoneNumber { get; set; } = null!;
+
+    [Required]
+    [DataType(DataType.Date)]
     public DateOnly OrderFor { get; set; }
     public ProductsOverViewModel ProductsOverViewModel { get; set; } = new();
     public int TotalPrice { get; set; }

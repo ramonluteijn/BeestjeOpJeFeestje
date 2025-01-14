@@ -19,12 +19,15 @@ public class SingleUserViewModel
     public Rank Rank { get; set; }
 
     [Required]
+    [DataType(DataType.PostalCode)]
     public string ZipCode { get; set; }
 
     [Required]
+    [StringLength(5)]
     public string HouseNumber { get; set; }
 
     [Required]
+    [DataType(DataType.PhoneNumber)]
     public string PhoneNumber { get; set; }
 
     public bool Check { get; set; }
