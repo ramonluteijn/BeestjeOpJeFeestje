@@ -6,12 +6,16 @@
 
 <div class="container">
     <partial name="~/Views/Shared/navigation.cshtml"/>
-
-
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-warning" role="alert">
+            @ViewBag.Message
+        </div>
+    }
     <div class="row mx-auto">
-        <form method="get" asp-action="Shop">
+        <form method="post" asp-action="IndexPost">
             <label for="date">Select a date</label>
-            <input type="date" id="date" name="date" class="form-control" required />
+            <input type="date" id="date" name="date" class="form-control" required/>
             <button type="submit" class="btn btn-primary">Next step</button>
         </form>
     </div>

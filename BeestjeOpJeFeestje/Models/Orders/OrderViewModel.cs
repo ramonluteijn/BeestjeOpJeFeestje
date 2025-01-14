@@ -15,7 +15,7 @@ public class OrderViewModel
     public string Email { get; set; } = null!;
 
     [Required]
-    [DataType(DataType.PostalCode)]
+    [DataType(DataType.PostalCode)] // werkt niet
     public string ZipCode { get; set; } = null!;
 
     [Required]
@@ -23,7 +23,7 @@ public class OrderViewModel
     public string HouseNumber { get; set; } = null!;
 
     [Required]
-    [DataType(DataType.PhoneNumber)]
+    [DataType(DataType.PhoneNumber)] // werkt niet
     public string PhoneNumber { get; set; } = null!;
 
     [Required]

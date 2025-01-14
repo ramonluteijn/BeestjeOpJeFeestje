@@ -11,15 +11,27 @@ namespace BeestjeOpJeFeestje.Controllers;
 public class OrderWizard(ProductService productService, BasketService basketService, OrderService orderService, AccountService accountService) : Controller
 {
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string? message = "")
     {
+        ViewBag.Message = message;
+        basketService.ClearBasket();
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult IndexPost(DateOnly date)
+    {
+        if (date < DateOnly.FromDateTime(DateTime.Now))
+        {
+            ViewBag.Message = "You can't order for a date in the past";
+            return View("Index");
+        }
+        return RedirectToAction("Shop", new { date, selectedTypes = new List<Type>() });
     }
 
     [HttpGet("products")]
     public IActionResult Shop(DateOnly date, List<Type>? selectedTypes)
     {
-        basketService.ClearBasket();
         var products = productService.GetProducts(date, selectedTypes);
         var basketProducts = basketService.GetBasketProducts();
 
