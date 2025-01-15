@@ -8,14 +8,10 @@ namespace BeestjeOpJeFeestje.Data.Services;
 
 public class OrderService(MainContext context, UserManager<User> userManager, ProductService productService)
 {
-    public (bool, string) CreateOrder(OrderDto orderDto, int? userId = null)
+    public void CreateOrder(OrderDto orderDto, int? userId = null)
     {
         if (orderDto != null)
         {
-            if(!CheckOrder(orderDto, userId).Item1)
-            {
-                return CheckOrder(orderDto, userId);
-            }
             var order = new Order()
             {
                 Name = orderDto.Name,
@@ -35,23 +31,7 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
 
             context.Orders.Add(order);
             context.SaveChanges();
-            return CheckOrder(orderDto, userId);
         }
-        return (false, "Order is empty.");
-    }
-
-    private (bool, string) CheckOrder(OrderDto orderDto, int? userId = null)
-    {
-        var user = userId != null ? userManager.FindByIdAsync(userId.Value.ToString()).Result : null;
-
-        var (checkProducts, resultProducts) = new CheckOrderProductsRule().CheckProducts(orderDto, user);
-        if (!checkProducts) return (false, resultProducts);
-
-        var (checkTogether, resultTogether) = new ProductsMayNotBeTogether().CheckProductsTogether(orderDto);
-        if (!checkTogether) return (false, resultTogether);
-
-        var(check, result) = new CheckSeasonRule().CheckAnimalAvailability(orderDto);
-        return !check ? (false, result) : (true, "Order created successfully. you may have payed for more products :)");
     }
 
     private int CalculateTotalPrice(OrderDto orderDto, int? userId)

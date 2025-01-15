@@ -33,8 +33,8 @@ public class OrderViewModel
     public int TotalPrice { get; set; }
     public int DiscountAmount { get; set; }
 
+    public bool Check{ get; set; }
     public string? Result { get; set; }
-    public bool Check { get; set; }
 
     public OrderDto ToDto()
     {

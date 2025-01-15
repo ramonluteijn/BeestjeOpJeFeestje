@@ -30,7 +30,7 @@ public class OrderWizard(ProductService productService, BasketService basketServ
     }
 
     [HttpGet("products")]
-    public IActionResult Shop(DateOnly date, List<Type>? selectedTypes)
+    public IActionResult Shop(DateOnly date, List<Type>? selectedTypes, string? result, bool check = true)
     {
         var products = productService.GetProducts(date, selectedTypes);
         var basketProducts = basketService.GetBasketProducts();
@@ -43,6 +43,8 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         var model = new OrderViewModel()
         {
             OrderFor = date,
+            Check = check,
+            Result = result,
             ProductsOverViewModel = new ProductsOverViewModel
             {
                 Products = products,
@@ -128,14 +130,10 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
         var parsedId = userId != null ? int.Parse(userId) : (int?)null;
 
-        var (check, result) = orderService.CreateOrder(model.ToDto(), parsedId);
-        if (check)
-        {
-            basketService.ClearBasket();
-        }
-        model.Check = check;
-        model.Result = result;
-        return RedirectToAction("Confirmation", model); //redirect to different page with order confirmation todo
+        orderService.CreateOrder(model.ToDto(), parsedId);
+        basketService.ClearBasket();
+
+        return RedirectToAction("Index", new { message = "Order created successfully, you may have payed for more products than expected :)" });
     }
 
     [HttpPost]
@@ -145,7 +143,13 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         var product = productService.GetProductById(productId);
         if (product != null)
         {
-            basketService.AddToBasket(product);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var parsedId = userId != null ? int.Parse(userId) : (int?)null;
+            var (isValid, message) = basketService.AddToBasket(product, parsedId);
+            if (!isValid)
+            {
+                return RedirectToAction("Shop", new { date, selectedTypes = new List<Type>(), result = message, check = isValid });
+            }
         }
         return RedirectToAction("Shop", new { date, selectedTypes = new List<Type>() });
     }
