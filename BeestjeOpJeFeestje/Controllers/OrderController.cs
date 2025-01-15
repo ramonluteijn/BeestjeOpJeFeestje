@@ -15,21 +15,8 @@ public class OrderController(OrderService orderService): Controller
     [HttpGet]
     public IActionResult Index()
     {
-        IEnumerable<OrderDto> orders;
-        if(User.IsInRole("Admin"))
-        {
-            orders = orderService.GetAllOrders();
-        }
-        else
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            orders = orderService.GetAllOrderByUserId(int.Parse(userId));
-        }
-        var ordersOverviewModel = new OrdersOverviewViewModel
-        {
-            Orders = orders
-        };
-        return View(ordersOverviewModel);
+        var orders = User.IsInRole("Admin") ? orderService.GetAllOrders() : orderService.GetAllOrderByUserId(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+        return View(new OrdersOverviewViewModel { Orders = orders });
     }
 
     [HttpGet("details/{id:int}")]

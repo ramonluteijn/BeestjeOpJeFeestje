@@ -8,14 +8,11 @@ namespace BeestjeOpJeFeestje.Controllers.Admin;
 [Route("/admin/product")]
 public class ProductController(ProductService productService, OrderService orderService) : Controller
 {
- [HttpGet]
+    [HttpGet]
     public IActionResult Index()
     {
         var products = productService.GetProducts();
-        var productsOverviewModel = new ProductsOverViewModel
-        {
-            Products = products
-        };
+        var productsOverviewModel = new ProductsOverViewModel { Products = products };
         return View(productsOverviewModel);
     }
 
@@ -28,73 +25,42 @@ public class ProductController(ProductService productService, OrderService order
     [HttpPost("create")]
     public async Task<IActionResult> Create(SingleProductViewModel productViewModel)
     {
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                var (check, result) = productService.CreateProduct(productViewModel.ToDto());
-                productViewModel.Check = check;
-                productViewModel.Result = result;
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("Error", e.Message);
-            }
-        }
+        await HandleProductSave(productViewModel, true);
         return View(productViewModel);
     }
 
-
-    [HttpGet("{id:int}/details")]
-    public IActionResult Details(int id)
+    private SingleProductViewModel GetProductViewModel(int id)
     {
         var product = productService.GetProductById(id);
-        var productOrders = orderService.GetAllOrdersByProductId(id);
-        var productViewModel = new SingleProductViewModel()
+        return new SingleProductViewModel
         {
             Id = product.Id,
             Name = product.Name,
             Price = product.Price,
             Type = product.Type,
             Img = product.Img,
-            Orders = productOrders
+            Orders = orderService.GetAllOrdersByProductId(id)
         };
+    }
+
+    [HttpGet("{id:int}/details")]
+    public IActionResult Details(int id)
+    {
+        var productViewModel = GetProductViewModel(id);
         return View(productViewModel);
     }
 
     [HttpGet("{id:int}/edit")]
     public IActionResult Edit(int id)
     {
-        var product = productService.GetProductById(id);
-        var productViewModel = new SingleProductViewModel()
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            Type = product.Type,
-            Img = product.Img
-        };
+        var productViewModel = GetProductViewModel(id);
         return View(productViewModel);
     }
 
     [HttpPost("{id:int}/edit")]
-
     public async Task<IActionResult> Edit(int id, SingleProductViewModel productViewModel)
     {
-        if (ModelState.IsValid)
-        {
-            var productDto = productViewModel.ToDto();
-            try
-            {
-                var (check, result) = productService.UpdateProduct(id, productDto);
-                productViewModel.Check = check;
-                productViewModel.Result = result;
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("Error", e.Message);
-            }
-        }
+        await HandleProductSave(productViewModel, false, id);
         return View(productViewModel);
     }
 
@@ -110,5 +76,23 @@ public class ProductController(ProductService productService, OrderService order
             return StatusCode(500, "Internal server error");
         }
         return RedirectToAction("Index");
+    }
+
+    private async Task HandleProductSave(SingleProductViewModel productViewModel, bool isCreate, int? id = null)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var productDto = productViewModel.ToDto();
+                (bool check, string result) operationResult = isCreate ? productService.CreateProduct(productDto) : productService.UpdateProduct(id.Value, productDto);
+                productViewModel.Check = operationResult.check;
+                productViewModel.Result = operationResult.result;
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e.Message);
+            }
+        }
     }
 }
