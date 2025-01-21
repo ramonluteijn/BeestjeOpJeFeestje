@@ -60,7 +60,7 @@ public class ProductController(ProductService productService, OrderService order
     [HttpPost("{id:int}/edit")]
     public async Task<IActionResult> Edit(int id, SingleProductViewModel productViewModel)
     {
-        await HandleProductSave(productViewModel, false, id);
+        productViewModel = await HandleProductSave(productViewModel, false, id);
         return View(productViewModel);
     }
 
@@ -78,21 +78,24 @@ public class ProductController(ProductService productService, OrderService order
         return RedirectToAction("Index");
     }
 
-    private async Task HandleProductSave(SingleProductViewModel productViewModel, bool isCreate, int? id = null)
+    private async Task<SingleProductViewModel> HandleProductSave(SingleProductViewModel productViewModel, bool isCreate, int? id = null)
     {
         if (ModelState.IsValid)
         {
             try
             {
                 var productDto = productViewModel.ToDto();
-                (bool check, string result) operationResult = isCreate ? productService.CreateProduct(productDto) : productService.UpdateProduct(id.Value, productDto);
+                (bool check, string result, string img) operationResult = isCreate ? productService.CreateProduct(productDto) : productService.UpdateProduct(id.Value, productDto);
                 productViewModel.Check = operationResult.check;
                 productViewModel.Result = operationResult.result;
+                productViewModel.Img = operationResult.img;
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("Error", e.Message);
             }
         }
+
+        return productViewModel;
     }
 }

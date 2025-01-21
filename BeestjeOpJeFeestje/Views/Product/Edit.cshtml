@@ -54,7 +54,11 @@
                     <select asp-for="@Model.Type" class="form-control" asp-items="Html.GetEnumSelectList<Type>()"></select>
                     <span asp-validation-for="@Model.Type" class="text-danger"></span>
                 </div>
-                <img src="~/Images/Icons/@Model.Type/@Model.Img" class="img-fluid" alt="@Model.Name"> <!-- todo: image isnt loading when edited-->
+                @if (Model.Img != null)
+                {
+                    <input type="hidden" name="Img" value="@Model.Img" />
+                    <img src="~/Images/Icons/@Model.Type/@Model.Img" class="img-fluid" alt="@Model.Name" />
+                }
             </div>
 
             <div class="d-flex justify-content-between pt-2">
