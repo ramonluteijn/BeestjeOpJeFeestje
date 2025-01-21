@@ -54,7 +54,7 @@ public class ProductService(MainContext context, ImageFactory imageFactory)
         return products;
     }
 
-    public (bool, string) CreateProduct(ProductDto productDto)
+    public (bool, string, string) CreateProduct(ProductDto productDto)
     {
         var product = new Product
         {
@@ -65,10 +65,10 @@ public class ProductService(MainContext context, ImageFactory imageFactory)
         };
         context.Products.Add(product);
         context.SaveChanges();
-        return (true, "Product created");
+        return (true, "Product created", product.Img);
     }
 
-    public (bool,string) UpdateProduct(int id, ProductDto productDto)
+    public (bool,string, string) UpdateProduct(int id, ProductDto productDto)
     {
         var product = context.Products.Find(id);
         if(product.Type != productDto.Type)
@@ -80,7 +80,7 @@ public class ProductService(MainContext context, ImageFactory imageFactory)
         product.Price = productDto.Price;
 
         context.SaveChanges();
-        return (true, "Product updated");
+        return (true, "Product updated", product.Img);
     }
 
     public Task DeleteProduct(int id)
