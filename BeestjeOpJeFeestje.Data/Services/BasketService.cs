@@ -3,29 +3,41 @@ using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Data.Rules.BasketRules;
 using BeestjeOpJeFeestje.Repository.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BeestjeOpJeFeestje.Data.Services
 {
     public class BasketService
     {
         private readonly Basket basket;
-        private readonly UserManager<User> userManager;
-        public BasketService()
+        private readonly IServiceProvider _serviceProvider;
+
+        public BasketService(IServiceProvider provider)
         {
+            _serviceProvider = provider;
             basket = new Basket();
+        }
+        
+        
+        private UserManager<User> GetUserManager(IServiceScope scope)
+        {
+            return scope.ServiceProvider.GetRequiredService<UserManager<User>>();
         }
 
         public (bool, string) AddToBasket(ProductDto product, int? userId = null)
         {
-            var (checkBasket, result) = CheckBasket(userId, product);
-            if (!checkBasket)
+            using (var scope = _serviceProvider.CreateScope())
             {
-                return (false, result);
-            }
+                var (checkBasket, result) = CheckBasket(scope, userId, product);
+                if (!checkBasket)
+                {
+                    return (false, result);
+                }
 
-            basket.Products.Add(product);
-            product.IsInBasket = true;
-            return (true, "Product added to basket successfully.");
+                basket.Products.Add(product);
+                product.IsInBasket = true;
+                return (true, "Product added to basket successfully.");
+            }
         }
 
         public void RemoveFromBasket(int productId)
@@ -50,9 +62,9 @@ namespace BeestjeOpJeFeestje.Data.Services
             return basket.Products.Count;
         }
 
-        private (bool, string) CheckBasket(int? userId = null, ProductDto product = null)
+        private (bool, string) CheckBasket(IServiceScope scope,int? userId = null, ProductDto product = null)
         {
-            var user = userId != null ? userManager.FindByIdAsync(userId.Value.ToString()).Result : null;
+            var user = userId != null ? GetUserManager(scope).FindByIdAsync(userId.Value.ToString()).Result : null;
 
             var (checkProducts, resultProducts) = new CheckOrderProductsRule().CheckProducts(basket, user, product);
             if (!checkProducts) return (false, resultProducts);

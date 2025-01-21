@@ -75,7 +75,7 @@ namespace BeestjeOpJeFeestje.Data.Services
             var result = await userManager.CreateAsync(newUser, password);
             if (!result.Succeeded)
             {
-                return (false, "Something went wrong, please try again.");
+                return (false,  result.ToString());
             }
 
             await userManager.AddToRoleAsync(newUser, "customer");

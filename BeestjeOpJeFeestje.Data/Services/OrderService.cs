@@ -22,11 +22,13 @@ public class OrderService(MainContext context, UserManager<User> userManager, Pr
                 OrderFor = orderDto.OrderFor,
                 UserId = userId,
                 TotalPrice = CalculateTotalPrice(orderDto, userId),
-                OrderDetails = orderDto.OrderDetails.Select(x => new OrderDetail()
+                OrderDetails = new List<OrderDetail>
                 {
-                    ProductId = x.ProductId,
-                    Product = context.Products.FirstOrDefault(p => p.Id == x.ProductId)
-                }).ToList()
+                    new OrderDetail
+                    {
+                        Product = context.Products.FirstOrDefault(p => p.Id == orderDto.OrderDetails.FirstOrDefault().ProductId)
+                    }
+                }
             };
 
             context.Orders.Add(order);
