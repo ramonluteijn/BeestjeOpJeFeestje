@@ -3,7 +3,7 @@ using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Data.Rules.BasketRules;
 using Type = BeestjeOpJeFeestje.Repository.Enums.Type;
 using NUnit.Framework;
-using System.Collections.Generic;
+using System;
 
 namespace Tests
 {
@@ -25,10 +25,9 @@ namespace Tests
             // Arrange
             var product = new ProductDto { Name = "Pinguïn" };
             var currentDate = new DateTime(2023, 10, 7); // Saturday
-            SystemTime.SetDateTime(currentDate);
 
             // Act
-            var result = _rule.CheckAnimalAvailability(_basket, product);
+            var result = _rule.CheckAnimalAvailability(_basket, product, currentDate);
 
             // Assert
             Assert.IsFalse(result.Item1);
@@ -39,12 +38,11 @@ namespace Tests
         public void CheckAnimalAvailability_DesertAnimalInWinter_ReturnsFalse()
         {
             // Arrange
-            var product = new ProductDto { Type = Type.DESERT };
+            var product = new ProductDto { Name = "Test",Type = Type.DESERT };
             var currentDate = new DateTime(2023, 12, 1); // Winter
-            SystemTime.SetDateTime(currentDate);
 
             // Act
-            var result = _rule.CheckAnimalAvailability(_basket, product);
+            var result = _rule.CheckAnimalAvailability(_basket, product, currentDate);
 
             // Assert
             Assert.IsFalse(result.Item1);
@@ -55,12 +53,11 @@ namespace Tests
         public void CheckAnimalAvailability_SnowAnimalInSummer_ReturnsFalse()
         {
             // Arrange
-            var product = new ProductDto { Type = Type.SNOW };
+            var product = new ProductDto { Name = "Test",Type = Type.SNOW };
             var currentDate = new DateTime(2023, 7, 1); // Summer
-            SystemTime.SetDateTime(currentDate);
 
             // Act
-            var result = _rule.CheckAnimalAvailability(_basket, product);
+            var result = _rule.CheckAnimalAvailability(_basket, product, currentDate);
 
             // Assert
             Assert.IsFalse(result.Item1);
@@ -73,10 +70,9 @@ namespace Tests
             // Arrange
             var product = new ProductDto { Name = "Kameel", Type = Type.DESERT };
             var currentDate = new DateTime(2023, 5, 1); // Spring
-            SystemTime.SetDateTime(currentDate);
 
             // Act
-            var result = _rule.CheckAnimalAvailability(_basket, product);
+            var result = _rule.CheckAnimalAvailability(_basket, product, currentDate);
 
             // Assert
             Assert.IsTrue(result.Item1);
