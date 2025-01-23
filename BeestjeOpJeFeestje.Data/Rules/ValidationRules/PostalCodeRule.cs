@@ -8,7 +8,7 @@ public class PostalCodeRule : ValidationAttribute
     public override bool IsValid(object value)
     {
         if (value == null) return false;
-        var postalCode = value.ToString();
+        String postalCode = value.ToString().Replace(" ", "");
         return Regex.IsMatch(postalCode, @"^\d{4}[A-Za-z]{2}$"); // 1234AB
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BeestjeOpJeFeestje.Data.Dtos;
+using BeestjeOpJeFeestje.Data.Rules.ValidationRules;
 using BeestjeOpJeFeestje.Models.Products;
 
 namespace BeestjeOpJeFeestje.Models.Orders;
@@ -15,7 +16,7 @@ public class OrderViewModel
     public string Email { get; set; } = null!;
 
     [Required]
-    [DataType(DataType.PostalCode)] // werkt niet
+    [PostalCodeRule] // werkt niet
     public string ZipCode { get; set; } = null!;
 
     [Required]
