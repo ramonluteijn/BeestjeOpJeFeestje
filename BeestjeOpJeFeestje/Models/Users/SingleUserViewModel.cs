@@ -28,7 +28,7 @@ public class SingleUserViewModel
     public string HouseNumber { get; set; }
 
     [Required]
-    [DataType(DataType.PhoneNumber)]
+    [StringLength(10)]
     public string PhoneNumber { get; set; }
 
     public bool Check { get; set; }
