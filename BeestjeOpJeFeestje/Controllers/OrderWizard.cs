@@ -80,7 +80,6 @@ public class OrderWizard(ProductService productService, BasketService basketServ
         return View(model);
     }
 
-    //todo
     [HttpPost("contact")]
     public IActionResult ContactPost(OrderViewModel model, bool skip)
     {
@@ -103,7 +102,6 @@ public class OrderWizard(ProductService productService, BasketService basketServ
             }
         }
 
-        //todo products not populating correctly
         model.ProductsOverViewModel = new ProductsOverViewModel
         {
             Products = basketService.GetBasketProducts(),
