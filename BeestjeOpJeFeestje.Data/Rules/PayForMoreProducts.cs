@@ -11,6 +11,16 @@ public class PayForMoreProducts
     //Check if the customer needs to pay for extra products
     public int PayForExtraProducts(OrderDto orderDto, List<ProductDto> allProducts)
     {
+        if (orderDto == null)
+        {
+            throw new ArgumentNullException(nameof(orderDto));
+        }
+
+        if (orderDto.OrderDetails == null || orderDto.OrderDetails.Count == 0)
+        {
+            return 0;
+        }
+
         if (orderDto.OrderDetails.Count % requiredAmount == 0)
         {
             var randomProduct = allProducts[random.Next(allProducts.Count)];

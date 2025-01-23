@@ -11,9 +11,17 @@ public class CheckSeasonRule
     private const string MeltingMessage = "Some People Are Worth Melting For. ~ Ola";
 
     // Check if the animal is available in the current season
-    public (bool, string) CheckAnimalAvailability(Basket basket, ProductDto product)
+    public (bool, string) CheckAnimalAvailability(Basket basket, ProductDto product, DateTime? inputDate = null)
     {
-        var currentDate = DateTime.Now;
+        DateTime currentDate;
+
+        if (inputDate == null)
+        {
+             currentDate = DateTime.Now;
+
+        } else {
+            currentDate = inputDate.Value;
+        }
         var dayOfWeek = currentDate.DayOfWeek;
         var month = currentDate.Month;
 
