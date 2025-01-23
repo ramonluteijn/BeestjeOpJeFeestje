@@ -26,4 +26,8 @@
       <ProjectReference Include="..\BeestjeOpJeFeestje.Repository\BeestjeOpJeFeestje.Repository.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Rules\Tests\" />
+    </ItemGroup>
+
 </Project>
