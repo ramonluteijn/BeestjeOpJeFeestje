@@ -34,36 +34,5 @@
       <Folder Include="wwwroot\Images\Icons\Snow\" />
       <Folder Include="wwwroot\Images\Icons\Vip\" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Areas\Customer\Shared\shop-item.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Order\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Product\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Product\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Product\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Product\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\User\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\User\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\User\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\User\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\_ViewImports.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\_ViewStart.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Auth\Views\Account\Login.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\OrderWizard\Confirmation.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\OrderWizard\Contact.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\OrderWizard\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\OrderWizard\Shop.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Order\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Order\Details.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Order\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Shared\shop-item.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\_ViewImports.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Customer\_ViewStart.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
-    </ItemGroup>
     
 </Project>
