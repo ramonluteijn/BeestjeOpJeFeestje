@@ -56,17 +56,26 @@ public class OrderWizard(ProductService productService, BasketService basketServ
     }
 
     [HttpGet("contact")]
-    public IActionResult Contact(DateOnly date)
+    public IActionResult Contact(DateOnly date, OrderViewModel? OVmodel = null)
     {
-        var model = new OrderViewModel()
+        var model = new OrderViewModel();
+
+        if (OVmodel != null)
         {
-            OrderFor = date,
-            ProductsOverViewModel = new ProductsOverViewModel
-            {
-                Products = basketService.GetBasketProducts(),
-                SelectedTypes = new List<Type>(),
-                BasketCount = basketService.GetBasketItemCount()
-            },
+            model.Name = OVmodel.Name;
+            model.Email = OVmodel.Email;
+            model.ZipCode = OVmodel.ZipCode;
+            model.HouseNumber = OVmodel.HouseNumber;
+            model.PhoneNumber = OVmodel.PhoneNumber;
+            model.TotalPrice = OVmodel.TotalPrice;
+            model.DiscountAmount = OVmodel.DiscountAmount;
+        }
+        model.OrderFor = date;
+        model.ProductsOverViewModel = new ProductsOverViewModel
+        {
+            Products = basketService.GetBasketProducts(),
+            SelectedTypes = new List<Type>(),
+            BasketCount = basketService.GetBasketItemCount()
         };
         return View(model);
     }
@@ -85,6 +94,7 @@ public class OrderWizard(ProductService productService, BasketService basketServ
                 model.Name = account.Name;
                 model.Email = account.Email;
                 model.ZipCode = account.ZipCode;
+                model.OrderFor = model.OrderFor;
                 model.HouseNumber = account.HouseNumber;
                 model.PhoneNumber = account.PhoneNumber;
 
@@ -99,7 +109,7 @@ public class OrderWizard(ProductService productService, BasketService basketServ
             Products = basketService.GetBasketProducts(),
         };
 
-        return ModelState.IsValid ? RedirectToAction("Confirmation", model) : RedirectToAction("Contact");
+        return ModelState.IsValid ? RedirectToAction("Confirmation", model) : RedirectToAction("Contact", new { date = model.OrderFor.ToString("yyyy-MM-dd"), OVmodel = model });
     }
 
    [HttpGet("confirmation")]

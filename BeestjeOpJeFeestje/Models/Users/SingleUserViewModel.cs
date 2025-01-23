@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BeestjeOpJeFeestje.Data.Dtos;
+using BeestjeOpJeFeestje.Data.Rules.ValidationRules;
 using BeestjeOpJeFeestje.Repository.Enums;
 
 namespace BeestjeOpJeFeestje.Models.Users;
@@ -19,7 +20,7 @@ public class SingleUserViewModel
     public Rank Rank { get; set; }
 
     [Required]
-    [DataType(DataType.PostalCode)]
+    [PostalCodeRule]
     public string ZipCode { get; set; }
 
     [Required]
