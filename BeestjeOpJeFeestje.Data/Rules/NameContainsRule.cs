@@ -7,6 +7,10 @@ public class NameContainsRule
     //2% discount for each unique letter in the product name
     public int ApplyNameContainsDiscount(OrderDto orderDto)
     {
+        if (orderDto == null)
+        {
+            throw new ArgumentNullException(nameof(orderDto));
+        }
 
         var uniqueLetters = new HashSet<char>();
 
